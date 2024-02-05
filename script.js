@@ -3,7 +3,7 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/danicastarr
-// @version      1.2.4
+// @version      1.2.5
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
@@ -37,8 +37,11 @@
             let settingMenu = document.createElement("div");
             settingMenu.className = "settings";
             settingMenu.innerHTML = `
-                <h2><a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Github搜索净化</a>
-                </h2><span class="userLoadNum">已加载屏蔽用户数量：加载中...</span>
+                <h2><span>Github搜索净化 v</span><span id="scriptVersion"></span></h2>
+                <a href="https://github.com/BonjourFeng/Github-Search-Purification" target="_blank"><div class="badge1"></div></a>
+                <a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96" target="_blank"><div class="badge2"></div></a>
+                <br>
+                <span class="userLoadNum">已加载屏蔽用户数量：加载中...</span>
                 <hr>
                 <div class="settings-block"><span>是否保留屏蔽项目Div的框：</span><label class="settings-switch"><input type="checkbox"
                             id="isKeepDiv"><span class="slider round"></span></label></div>
@@ -89,6 +92,8 @@
             document.body.appendChild(settingMenu);
 
             // 更新设置页面
+
+            document.getElementById("scriptVersion").innerText = GM_info.script.version;
             document.getElementsByClassName("userLoadNum")[0].innerText = "已加载屏蔽用户数量：" + ban.length;
             isKeepDiv ? document.getElementById("isKeepDiv").checked = true : document.getElementById("isKeepDiv").checked = false;
             isPrecise ? document.getElementById("isPrecise").checked = true : document.getElementById("isPrecise").checked = false;
@@ -109,11 +114,11 @@
                 let settingsWindow = document.getElementsByClassName("settings")[0];
                 let helpDiv = document.getElementsByClassName('help-div')[0];
                 if (helpDiv.hidden) {
-                    settingsWindow.style.height = '840px';
+                    settingsWindow.style.height = '830px';
                     helpDiv.hidden = false;
                 }
                 else {
-                    settingsWindow.style.height = '420px';
+                    settingsWindow.style.height = '440px';
                     helpDiv.hidden = true;
                 }
             };
@@ -319,15 +324,19 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             text-align: center;
             font-size: large;
-            height: 420px;
-            width: 650px;
+            height: 440px;
+            width: 660px;
             left: 50%;
             top: 50%;
             padding: 0px 20px;
             transform: translate(-50%, -50%);
             background-color: aliceblue;
             border: solid lightgray 1px;
-            border-radius: 6px;
+            border-radius: 8px;
+        }
+
+        div.settings hr {
+            margin: 10px;
         }
 
         div.settings h2 {
@@ -429,7 +438,7 @@
             margin: 5px;
             background-color: white;
             border: solid lightgray 1px;
-            border-radius: 5px;
+            border-radius: 8px;
         }
 
         div.settings button:hover {
@@ -445,7 +454,7 @@
             margin: 5px;
             background-color: white;
             border: solid lightgray 1px;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 0px 10px;
         }
 
@@ -453,7 +462,7 @@
             transition: 0.2s;
             color: #4096ff;
             border: solid #4096ff 1px;
-            border-radius: 5px;
+            border-radius: 8px;
         }
 
         div.settings input.settings-input:focus {
@@ -476,18 +485,58 @@
             margin: 10px 0px;
         }
 
+        div.settings table {
+            text-align: center;
+        }
+
+        div.settings .help-div table tbody tr td{
+            padding: 0px 10px;
+        }
+
         /* 深色模式支持 */
         @media screen and (prefers-color-scheme: dark) {
             div.settings {
-                color: whitesmoke !important;
-                background-color: #0d1117 !important;
+                color: #e6edf3;
+                border-color: #30363d;
+                background-color: #0d1118;
             }
 
-            div.settings input,button {
-                color: whitesmoke !important;
-                background-color: #0d1117 !important;
+            div.settings button {
+                color: #e6edf3;
+                border-color: #30363d;
+                background: none;
             }
+
+            div.settings hr {
+                color: #8a8b8b;
+            }
+
+            div.settings div.settings-block input {
+                color: #e6edf3;
+                border-color: #30363d;
+                background: none;
+            }
+
         }
+
+        /* badge */
+        div.settings div.badge1 {
+            display: inline-block;
+            width: 217px;
+            height: 20px;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjE3IiBoZWlnaHQ9IjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkdpdGh1YjogR2l0aHViIFNlYXJjaCBQdXJpZmljYXRpb24iPjx0aXRsZT5HaXRodWI6IEdpdGh1YiBTZWFyY2ggUHVyaWZpY2F0aW9uPC90aXRsZT48ZyBzaGFwZS1yZW5kZXJpbmc9ImNyaXNwRWRnZXMiPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHg9IjY0IiB3aWR0aD0iMTUzIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMDA3ZWM2Ii8+PC9nPjxnIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJWZXJkYW5hLEdlbmV2YSxEZWphVnUgU2FucyxzYW5zLXNlcmlmIiB0ZXh0LXJlbmRlcmluZz0iZ2VvbWV0cmljUHJlY2lzaW9uIiBmb250LXNpemU9IjExMCI+PGltYWdlIHg9IjUiIHk9IjMiIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCbWFXeHNQU0ozYUdsMFpYTnRiMnRsSWlCeWIyeGxQU0pwYldjaUlIWnBaWGRDYjNnOUlqQWdNQ0F5TkNBeU5DSWdlRzFzYm5NOUltaDBkSEE2THk5M2QzY3Vkek11YjNKbkx6SXdNREF2YzNabklqNDhkR2wwYkdVK1IybDBTSFZpUEM5MGFYUnNaVDQ4Y0dGMGFDQmtQU0pOTVRJZ0xqSTVOMk10Tmk0Mk15QXdMVEV5SURVdU16Y3pMVEV5SURFeUlEQWdOUzR6TURNZ015NDBNemdnT1M0NElEZ3VNakExSURFeExqTTROUzQyTGpFeE15NDRNaTB1TWpVNExqZ3lMUzQxTnpjZ01DMHVNamcxTFM0d01TMHhMakEwTFM0d01UVXRNaTR3TkMwekxqTXpPQzQzTWpRdE5DNHdOREl0TVM0Mk1TMDBMakEwTWkweExqWXhRelF1TkRJeUlERTRMakEzSURNdU5qTXpJREUzTGpjZ015NDJNek1nTVRjdU4yTXRNUzR3T0RjdExqYzBOQzR3T0RRdExqY3lPUzR3T0RRdExqY3lPU0F4TGpJd05TNHdPRFFnTVM0NE16Z2dNUzR5TXpZZ01TNDRNemdnTVM0eU16WWdNUzR3TnlBeExqZ3pOU0F5TGpnd09TQXhMak13TlNBekxqUTVOUzQ1T1RndU1UQTRMUzQzTnpZdU5ERTNMVEV1TXpBMUxqYzJMVEV1TmpBMUxUSXVOalkxTFM0ekxUVXVORFkyTFRFdU16TXlMVFV1TkRZMkxUVXVPVE1nTUMweExqTXhMalEyTlMweUxqTTRJREV1TWpNMUxUTXVNakl0TGpFek5TMHVNekF6TFM0MU5DMHhMalV5TXk0eE1EVXRNeTR4TnpZZ01DQXdJREV1TURBMUxTNHpNaklnTXk0eklERXVNak11T1RZdExqSTJOeUF4TGprNExTNHpPVGtnTXkwdU5EQTFJREV1TURJdU1EQTJJREl1TURRdU1UTTRJRE1nTGpRd05TQXlMakk0TFRFdU5UVXlJRE11TWpnMUxURXVNak1nTXk0eU9EVXRNUzR5TXk0Mk5EVWdNUzQyTlRNdU1qUWdNaTQ0TnpNdU1USWdNeTR4TnpZdU56WTFMamcwSURFdU1qTWdNUzQ1TVNBeExqSXpJRE11TWpJZ01DQTBMall4TFRJdU9EQTFJRFV1TmpJMUxUVXVORGMxSURVdU9USXVOREl1TXpZdU9ERWdNUzR3T1RZdU9ERWdNaTR5TWlBd0lERXVOakEyTFM0d01UVWdNaTQ0T1RZdExqQXhOU0F6TGpJNE5pQXdJQzR6TVRVdU1qRXVOamt1T0RJMUxqVTNRekl3TGpVMk5TQXlNaTR3T1RJZ01qUWdNVGN1TlRreUlESTBJREV5TGpJNU4yTXdMVFl1TmpJM0xUVXVNemN6TFRFeUxURXlMVEV5SWk4K1BDOXpkbWMrIi8+PHRleHQgeD0iNDE1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSIzNzAiPkdpdGh1YjwvdGV4dD48dGV4dCB4PSIxMzk1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSIxNDMwIj5HaXRodWIgU2VhcmNoIFB1cmlmaWNhdGlvbjwvdGV4dD48L2c+PC9zdmc+");
+            margin: auto;
+        }
+
+        div.settings div.badge2 {
+            display: inline-block;
+            width: 185px;
+            height: 20px;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTg1IiBoZWlnaHQ9IjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkdyZWFzeSBGb3JrOiBHaXRodWLmkJzntKLlh4DljJYiPjx0aXRsZT5HcmVhc3kgRm9yazogR2l0aHVi5pCc57Si5YeA5YyWPC90aXRsZT48ZyBzaGFwZS1yZW5kZXJpbmc9ImNyaXNwRWRnZXMiPjxyZWN0IHdpZHRoPSI5NCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzU1NSIvPjxyZWN0IHg9Ijk0IiB3aWR0aD0iOTEiIGhlaWdodD0iMjAiIGZpbGw9IiMwMDdlYzYiLz48L2c+PGcgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IlZlcmRhbmEsR2VuZXZhLERlamFWdSBTYW5zLHNhbnMtc2VyaWYiIHRleHQtcmVuZGVyaW5nPSJnZW9tZXRyaWNQcmVjaXNpb24iIGZvbnQtc2l6ZT0iMTEwIj48aW1hZ2UgeD0iNSIgeT0iMyIgd2lkdGg9IjE0IiBoZWlnaHQ9IjE0IiB4bGluazpocmVmPSJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUJtYVd4c1BTSjNhR2wwWlhOdGIydGxJaUJ5YjJ4bFBTSnBiV2NpSUhacFpYZENiM2c5SWpBZ01DQXlOQ0F5TkNJZ2VHMXNibk05SW1oMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSWo0OGRHbDBiR1UrUjNKbFlYTjVJRVp2Y21zOEwzUnBkR3hsUGp4d1lYUm9JR1E5SWswMUxqZzVJREl1TWpJM1lTNHlPQzR5T0NBd0lEQWdNU0F1TWpZMkxqQTNObXcxTGpBMk15QTFMakEyTW1NdU5UUXVOVFF1TlRBNUlERXVOalV5TFM0d016RWdNaTR4T1RKc09DNDNOekVnT0M0M04yTXhMak0xTmlBeExqTTFOUzB1TXpZZ015NHdPVGN0TVM0M015QXhMamN5T0d3dE9DNDNOekl0T0M0M04yTXRMalUwTGpVMExURXVOalV4TGpVM01TMHlMakU1TVM0d016RnNMVFV1TURZekxUVXVNRFpqTFM0ek1EUXRMak13TkM0ek1EUXRMamt4TVM0Mk1EZ3RMall3T0d3ekxqY3hOQ0F6TGpjeE0wdzNMalU1SURndU1qazNJRE11T0RjMUlEUXVOVGd5WXkwdU16QTBMUzR6TURRdU16QTBMUzQ1TVRFdU5qQTNMUzQyTURkc015NDNNVFVnTXk0M01UUWdNUzR3TmpjdE1TNHdOalpNTlM0MU5Ea2dNaTQ1TVdNdExqSXlPQzB1TWpJNExqQTFOeTB1TmpJMkxqTTBNaTB1TmpneldrMHhNaUF3UXpVdU16YzBJREFnTUNBMUxqTTNOU0F3SURFeWN6VXVNemMwSURFeUlERXlJREV5WXpZdU5qSTFJREFnTVRJdE5TNHpOelVnTVRJdE1USlRNVGd1TmpJMUlEQWdNVElnTUZvaUx6NDhMM04yWno0PSIvPjx0ZXh0IHg9IjU2NSIgeT0iMTQwIiB0cmFuc2Zvcm09InNjYWxlKC4xKSIgZmlsbD0iI2ZmZiIgdGV4dExlbmd0aD0iNjcwIj5HcmVhc3kgRm9yazwvdGV4dD48dGV4dCB4PSIxMzg1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSI4MTAiPkdpdGh1YuaQnOe0ouWHgOWMljwvdGV4dD48L2c+PC9zdmc+");
+}
+            margin: auto;
+        }
+
     `);
 
     console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\n====================");
