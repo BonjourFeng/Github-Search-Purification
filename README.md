@@ -2,7 +2,7 @@
 
 <p style="text-align: center;">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a></p>
 
-![](https://camo.githubusercontent.com/be54c62f6a439e0d9f7257da7c9e3b47a6298ea74ddd4e38fc28b9d0e761daa7/68747470733a2f2f67697465652e636f6d2f43683372792f5363726970742d486973746f72792f7261772f6d61696e2f686973746f72792e706e67)
+![](https://raw.gitmirror.com/BonjourFeng/Script-History/main/history.png)
 
 ## 脚本功能
 
