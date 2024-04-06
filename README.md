@@ -4,7 +4,7 @@
 
 <p align="center">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a></p>
 
-![](https://raw.gitmirror.com/BonjourFeng/Script-History/main/history.png?t)
+![](https://raw.gitmirror.com/BonjourFeng/Script-History/main/history.png)
 
 ---
 
@@ -81,6 +81,8 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 - v1.2.3 优化代码逻辑，提升使用体验
 - v1.2.4 适配深色模式
 - v1.2.5 调整设置菜单样式
+- v1.2.6 添加屏蔽用户
+- v1.2.7 添加屏蔽用户
 
 
 ---
@@ -90,9 +92,7 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 以下用户对脚本提出了建议
 
 - whyjxz14 (Greasy Fork)
-
 - yzjn6 (Greasy Fork)
-
 - garyvalue (Greasy Fork)
-
 - Marvolo (Greasy Fork)
+- psychosispy (Github)
