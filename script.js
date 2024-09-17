@@ -3,7 +3,7 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/danicastarr
-// @version      1.2.7
+// @version      1.2.8
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
@@ -148,7 +148,7 @@
 
     // 关闭设置页面函数
     function closeMenu() {
-        let github_area = document.getElementsByClassName("logged-in env-production page-responsive")[1];
+        let github_area = document.getElementsByClassName("env-production page-responsive")[1];
         let settingsWindow = document.getElementsByClassName("settings")[0];
         settingsWindow.style.opacity = 0;
         setInterval(()=>{settingsWindow.remove()}, 200);
@@ -159,12 +159,12 @@
     // 背景模糊函数，使用try避免因小错误导致脚本失效
     function backgroungBlur() {
         try {
-            let github_area = document.getElementsByClassName("logged-in env-production page-responsive")[1];
+            let github_area = document.getElementsByClassName("env-production page-responsive")[1];
             github_area.style.transition = '0.2s';
             github_area.style.filter == '' ? github_area.style.filter = 'blur(10px)' : github_area.style.filter = '';
 
             // 设置背景滚动
-            github_area = document.getElementsByClassName("logged-in env-production page-responsive")[0];
+            github_area = document.getElementsByClassName("env-production page-responsive")[0];
             github_area.style.overflow == 'hidden' ? github_area.style.overflow = '' : github_area.style.overflow = 'hidden';
         } catch(err) {
             console.log(GM_info.script.name + "：设置背景模糊或背景滚动失效");
