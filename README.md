@@ -88,6 +88,7 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 - v1.2.6 添加屏蔽用户
 - v1.2.7 添加屏蔽用户
 - v1.2.8 解决背景模糊失效问题
+- v1.2.9 添加屏蔽用户
 
 
 ---
@@ -101,3 +102,4 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 - garyvalue (Greasy Fork)
 - Marvolo (Greasy Fork)
 - psychosispy (Github)
+- yblpoi (Github)
