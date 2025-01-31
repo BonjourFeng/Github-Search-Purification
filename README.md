@@ -31,6 +31,7 @@
 | MutationObserver(推荐) | 检测页面元素变动      | 较小   | 未发现     |
 |  Loop                | 循环检测          | 较大   | 不可能发生   |
 | eventListener        | 检测pushState事件 | 很小   | 特定情境下发生 |
+|Navigation              |检测导航路由变化 | 很小 | 特定情况下发生 |
 
 5.每次检测循环间隔的时间，单位为毫秒(1000秒 = 1秒)，可根据自身设备性能调整，默认为100毫秒。
 
@@ -66,6 +67,10 @@ Greasy Fork上传的代码是不允许混淆或压缩（最小化）的，`@gran
 **Q4：怎么打开脚本设置菜单？**
 
 A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](https://github.com/search?q=%E6%94%BF%E6%B2%BB&type=repositories&s=stars&o=desc)）点击右上角油猴插件图标，可参考图2。
+
+**Q5：Navigation API 检测模式无效？**
+
+A5: Navigation API 支持 Chromium 102+ 内核，其他一律不支持 [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
 
 ---
 
