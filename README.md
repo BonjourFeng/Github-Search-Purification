@@ -55,8 +55,7 @@ A1：按以下优先级检查：检查浏览器和脚本管理器 → 检查脚�
 
 **Q2：依然不生效 / 有功能建议？**
 
-A2：请[反馈](https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96/feedback)，因功能失效反馈时请附带浏览器、脚本管理器、已安装脚本
-等信息，否则不做理会
+A2：请[反馈](https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96/feedback)，因功能失效反馈时请附带浏览器、脚本管理器、已安装脚本、报错等信息，否则不做理会
 
 **Q3：为什么安装时会显示需要信任作者？**
 
@@ -70,7 +69,7 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 
 **Q5：Navigation API 检测模式无效？**
 
-A5: Navigation API 支持 Chromium 102+ 内核，其他一律不支持 [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
+A5: Navigation API 支持 Chromium 102+ 内核，其他一律不支持的情况均会 fallback 到  MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
 
 ---
 
