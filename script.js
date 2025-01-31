@@ -3,7 +3,7 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/BonjourFeng
-// @version      1.3.0
+// @version      1.3.1
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
@@ -18,6 +18,7 @@
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_notification
+// @grant        GM_deleteValues
 // @grant        unsafeWindow
 // @run-at       document-end
 // @downloadURL https://update.greasyfork.org/scripts/473912/Github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96.user.js
@@ -27,7 +28,7 @@
     "use strict" // 严格模式
     let ban = ['cirosantilli', 'wumaoland', 'codin-stuffs', 'cheezcharmer', 'gege-circle', 'zhaohmng-outlook-com', 'zaohmeing', 'Daravai1234', 'candice531033938', 'jk-ice-cream', 'jk-ice-cream-250', 'sky8964', 'pxvr-official', 'zpc1314521', 'jjzhang166', 'panbinibn', 'programthink', 'hello-world-1989', 'b0LBwZ7r5HOeh6CBMuQIhVu3-s-random-fork', 'thethetpvmy', 'wwwswitch520cc', 'shotoanqrob', 'sitempeanhkkwg', 'fukeluo', '1206256980', 'curees', 'yuoppo', 'Createree', 'vghl', 'wholedata', 'dunjian', 'mksshare', 'abshare', 'tpxdat', 'jhdyg', 'changfengqj', 'Dujltqzv', 'xmq1024', 'golade', 'kdjfhd', 'dkjhy', 'junsolg', 'dkjiiu', 'faithhow', 'yamtioy', 'zugzuc', 'lusvont', 'kenyatas', 'koeheu', 'juttama', 'duspub', 'wuqdid', 'visxud', 'suyfic', 'qokkod', 'roepuo', 'purfob', 'gitprocode', 'ynwynw', 'hanguodianying', 'hgyw', '69sm', 'urlapp', 'Augensternhx', 'urlweb', 'fuliso', 'nishjd', '36dshipin', 'hapump', 'zhguoxmw', 'KoreanMovies', 'hanjutv', 'mamadepengyou', 'mamatouyunmuxuan', 'erzideqizi', 'wodeqizidejiejie', 'xiaoyizidemeng', 'qingyuzongheng', 'jiangnanerxi', 'hanguobiaomei', 'djhgy', 'XXOOBY', 'baoyu1024', 'kk234kkkk', '15923-ORIX', 'wutaed', 'webzhibo', 'apptuijian', 'follow666', 'yu90892', 'aconteet', 'getmal', 'itxinfei', 'mingtiana', 'midoushipin', 'paofushipin', 'yinghanshipin', 'GTVapp', 'huangyouquan', 'devlookme', 'audwq', 'jhdgy', 'di6gandh', 'shuangyuzhibo', 'lvchazhibo', 'xiaolanshipin', 'bofangqi', 'yingtaoshipin', 'xiangfeizhibo', 'lvchaApp', 'luoshenzhibo', 'yaojizhibo', 'mudanzhibo', 'aiaizhibo', 'gaochaoqwe', 'jiolde', 'lsdhw', 'kanavdaohang', 'harnh', 'kuadaner', 'wapquan', 'laoyeer', 'reteres', 'haoersn', 'zhengjianzhong0107', 'huaaweiCode', 'jianjian00001', 'm2ak-dev', 'yyzwz', 'froginwe11', 'luanmenglei', 'xijinping0', 'cyqqq', 'qldaisd', 'lTbgykio', 'yao270161651', 'jt0008jt0008', '15625103741', 'sky1234566778', 'chfucao', 'chifuyidaocao', 'updrmeltm', 'alice548', 'yazm000', 'cpnorg', 'tffygbu', 'Liberty-China', '1989CCP', 'liulihaocai', 'RevolutionaryCommitteeCPC', 'LeiyanLu', 'webdao', 'GC4WP', 'tu01', 'ziliao1', 'zzs70', 'ff2017', 'guitu2017', 'tu2017', 'wm001', 'wnel2017', 'dunhlino', 'nelaliox', 'jianjian3219', 'giteecode', '666bears', 'wang-buer', 'id681ilyg316', 'uhjid', 'usdui', 'uhskl', 'uyjks', 'uhskldf', 'itgsi5', 'uifskv', 'uhgask', 'igfkld', 'udsjd', 'ufodk', 'uigsjt', 'ighfrs', 'haivs', 'idrkkld', 'yuisju', 'uldydj', 'uyuek', 'tydfj', 'uuedif', 'ykwsw3', 'uigsi7', 'tyiis', 'ykeik', 'ukvdj', 'uyikl', 'ufzekg', 'yiksure', 'rhksgz', 'rthls', 'rhjaw', 'rehlxs', 'thzsgt', 'tdidst', 'eglct', 'tjkdyu', 'tjlks', 'tjjds', 'rllfs', 'rhkstd', 'yjscdr', 'servisee', 'ufsjzf', 'bvnbvnfgd', 'duliyingshi', 'calendi', 'mayeobey', 'QQMusic-Jay-Chou', 'boylovecomic', 'bt9527', 'FarmerChina', 'Waymon102092', 'baofx', 'biehd', 'moonpas', 'lyqilo', 'liliqh', 'hourv', 'xinfue', 'jijidianying', 'YuyanCai', 'jtdh', 'isdkxr', 'yhildyu', 'ykldyld', 'igsigk', 'uidekj', 'iufskw', 'udsjhf', 'tjkdx', 'rtkist', 'tjlsyh', 'euhf', 'rjzsht', 'rhkdzu', 'ehkkld', 'xzgfsw', 'iofgd', 'yufdk', 'ujkdub', 'iofgdsk', 'dyghikg', 'ugdskf', 'ifwaih', 'oigsiu', 'yjksku', 'yfdkkrf', 'thjsqd', 'yjsyhf', 'ydjsu6', 'igseyf', 'ujudy8', 'tykde', 'ykmdi8', 'yklzrf', 'uijdkd', 'yjkshc', 'tkajc', 'ykdzs', 'jklsx', 'ejldux', 'ifxspo', 'ogsvtf', 'ifdeu', 'yudfdi', 'ofssj', 'igegkx', 'ugfkd', 'ugdsk', 'udskts', 'yjlkdss', 'fkdryl', 'rtuyjsr', 'tus56f', 'yjdsd', 'yuet6h', 'ugtw', 'tlkxt', 'yesrs', 'ykkds', 'yjksu', 'yhyshs', 'xdzfby', 'yujzdh', 'znfl', 'kjiud', 'shijuezhishi', 'hy1980boy', 'ww0304', 'ZXCASD854', 'zfpdh', 'batiyadh', 'yinsedh', 'yyfxz', 'bllpooe', 'joodfer', 'qdmang', 'chaenet', 'mzsyv', 'kzhaoes', 'clnnews', 'kendnes', 'hongnews', 'luokez', 'li721-LY', 'itunsr', 'cctnews', 'htmle', 'xmmj2', 'younownews', '445435213', 'seseClub', 'enewse', 'wsnewse', 'qsnews', 'soasmoughroy', 'adminewhat', 'wsermusic', 'molingfer', 'zhihues', '95movies', '99fuli', 'qnewse', 'tareres', 'hukioip', 'Hochoclate713', 'ervnme', 'greenleaf8888', '93-days', 'doubanm', 'xhydh', 'fvckslvt', 'MDCM-FB', 'b08240', 'm3u8-ekvod', 'huan768468', 'SweeOBC', 'ningmengsuan7788', 'supperqb', 'idskjs', 'ifsird', 'gklksr', 'ifsjxr', 'ifskxt', 'ghjklsd', 'udsskd', 'tgsjk', 'ihgsk', 'ujsjk', 'ijhdf', 'fghhgks', 'udfae4', 'jujwdj', 'ydsdk', 'uyfgsj', 'ykkxrd', 'branono', 'hytcd', 'kjiuo', 'SaolApp', 'lourv', 'uisdlk', 'hutuhai', 'dengminna', 'whmnoe4j', 'txy9704', 'ufsjl', 'udsks', 'uifsjk', 'ygsaj', 'udsts', 'yurdek', 'ghklsr', 'ifsnx', 'ufskd', 'yujst6', 'ifsurjn', 'saoyagma', 'yusyrdk', 'uijhgr', 'geeeeeeeek', 'gfjklk', 'uiskv', 'ccccsp', 'rrrsp', 'udjxs', 'qiezisp', 'egklkd', 't6korf', 'line915577', 'haijv', 'huaxinzhibo', 'haijiaofabuye', 'haijiaoshequ', 'HaijiaoCommunity', 'haijiao-app', 'fulibaike', 'lurmarp', 'entvasa', 'gotwib', 'hghkiiy121', 'gubcem', 'uijssu', 'yjhuk', 'yklsd', 'haijiaoWeb', 'winston779', 'tyukkst', 'ujsnmc', 'ygssk', 'igdkdy', 'qiezishiping', 'kjuhd', 'xiaogongzhuAPP', 'babyzhibo', 'yaojingzhibo', 'balizhibo', 'jiuaizhibo', 'liuyuezhibo', '69live', 'asidw', 'kuaimaoVIP', 'siguaha', 'mizhizhibo', 'lihzd', 'caomeizhibo', '36DAPP', 'luolisheApp', '69zhibo', 'jiejiezhibo', 'k8japan', 'buyaoshan', 'dk111222', 'fanbaovpn', 'HGcrowntiyu', '196tiyu', 'parryno', 'boyiscode', 'moonews', 'kim1528', 'tjqJ62cESiHPj6DdR6vXDAcPp', 'code-help-tutor', 'turbocanary', 'Ifem2BXvz4N4gh1gGn0bkR3Lp'];
     let isKeepDiv = GM_getValue("isKeepDiv", false); // 是否保留屏蔽项目Div的框，，默认为false
-    let isPrecise = GM_getValue("isPrecise", false); // 是否精确匹配，默认为false
+    let isPrecise = GM_getValue("isPrecise", true); // 是否精确匹配，默认为true
     let detectMode = GM_getValue("detectMode", "mutationobserver"); // 检测模式，默认为mutationobserver
     let detectDelay = GM_getValue("detectDelay", 100); // 每次检测循环间隔的时间，单位为毫秒，默认为100毫秒
     let allowAnnouncement = GM_getValue("allowAnnouncement", true); // 是否显示"正在使用非最佳配置"提示，默认为true
@@ -55,7 +56,7 @@
                 </div>
                 <div class="settings-block">
                     <span>Div的提示文本：</span>
-                    <input type="text" style="width: 50%;" class="settings-input">
+                    <input type="text" style="width: 30%;" class="settings-input">
                 </div>
                 <div class="settings-block"><span>是否精确匹配：</span><label class="settings-switch"><input type="checkbox"
                             id="isPrecise"><span class="slider round"></span></label></div>
@@ -67,13 +68,17 @@
                         <input type="radio" name="detectMode" class="settings-radio">
                         MutationObserver(推荐)
                     </label>
-                    <label class="settings-label">
+                    <label class="settings-label" title="性能较差，不推荐">
                         <input type="radio" name="detectMode" class="settings-radio">
                         Loop
                     </label>
-                    <label class="settings-label">
+                    <label class="settings-label" title="有可能没有效果">
                         <input type="radio" name="detectMode" class="settings-radio">
                         eventListener
+                    </label>
+                    <label class="settings-label" title="Firefox,Safari 不支持">
+                        <input type="radio" name="detectMode" class="settings-radio">
+                        Navigation API
                     </label>
                 </div>
                 <div class="settings-block"><span>(Loop模式)每次检测循环间隔的时间 (毫秒) ：</span><input type="number" class="settings-input">
@@ -87,7 +92,7 @@
                 </div>
                 <div class="settings-block">
                     <span>自定义屏蔽:</span>
-                    <textarea id="customBanInput" placeholder="每行输入一个用户名" class="settings-textarea"></textarea>
+                    <textarea id="customBanInput" placeholder="直接输入，或者直接拖入txt文件到此框内 格式：每行输入一个要屏蔽的用户名" class="settings-textarea"></textarea>
                 </div>
 
                 <button id="help">帮助</button><button id="save">保存</button><button id="cancel">取消</button>
@@ -98,7 +103,13 @@
             // 更新设置页面
 
             document.getElementById("scriptVersion").innerText = GM_info.script.version;
-            document.getElementsByClassName("userLoadNum")[0].innerText = "已加载默认屏蔽用户数量：" + ban.length + "，自定义屏蔽词数量：" + customBanList.length;
+
+            const userLoadNum = document.getElementsByClassName("userLoadNum")[0];
+            if (useDefaultList) {
+                userLoadNum.innerText = `已加载默认屏蔽用户数量：${ban.length}，自定义屏蔽词数量：${customBanList.length}`;
+            } else {
+                userLoadNum.innerText = `默认列表已关闭，自定义屏蔽词数量：${customBanList.length}`;
+            }
 
             isKeepDiv ? document.getElementById("isKeepDiv").checked = true : document.getElementById("isKeepDiv").checked = false;
             isPrecise ? document.getElementById("isPrecise").checked = true : document.getElementById("isPrecise").checked = false;
@@ -109,18 +120,42 @@
                 case "mutationobserver": document.getElementsByClassName("settings-radio")[0].checked = true; break;
                 case "loop": document.getElementsByClassName("settings-radio")[1].checked = true; break;
                 case "eventListen": document.getElementsByClassName("settings-radio")[2].checked = true; break;
+                case "navigation": document.getElementsByClassName("settings-radio")[3].checked = true; break;
             }
 
             document.getElementsByClassName("settings-input")[0].value = blockText;
             document.getElementsByClassName("settings-input")[1].value = detectDelay;
             document.getElementById("customBanInput").value = customBanList.join("\n");
 
+            // feature: 拖入txt文件
+            // Fix: 拖入后设置面板会变模糊，是transform引起的
+            document.getElementById("customBanInput").addEventListener('drop', function (e) {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                if (file.type === "text/plain") {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        document.getElementById("customBanInput").value = reader.result;
+                    };
+
+                    // 读取文件内容
+                    reader.readAsText(file);
+                } else {
+                    alert("请拖入txt文本文件");
+                }
+            });
+
+            // 阻止textarea的dragover默认行为,否则无法触发drop事件
+            document.getElementById("customBanInput").addEventListener('dragover', function (e) {
+                e.preventDefault();
+            });
+
             // 背景模糊效果
             backgroungBlur();
 
             // 添加按钮事件——帮助
             document.getElementById("help").onclick = function () {
-                if (confirm("是否前往Github仓库查看帮助？")) {
+                if (confirm("是否前往Github仓库查看 README.md？")) {
                     window.open("https://github.com/BonjourFeng/Github-Search-Purification", "_blank");
                 }
             };
@@ -135,6 +170,7 @@
                 if (document.getElementsByClassName("settings-radio")[0].checked == true) { GM_setValue("detectMode", "mutationobserver"); }
                 else if (document.getElementsByClassName("settings-radio")[1].checked == true) { GM_setValue("detectMode", "loop"); }
                 else if (document.getElementsByClassName("settings-radio")[2].checked == true) { GM_setValue("detectMode", "eventListen"); }
+                else if (document.getElementsByClassName("settings-radio")[3].checked == true) { GM_setValue("detectMode", "navigation"); }
 
 
                 let newBlockText = document.getElementsByClassName("settings-input")[0].value;
@@ -199,14 +235,15 @@
         "🔄️重置设置",
         function () {
             if (confirm("是否重置脚本设置？") == true) {
-                GM_setValue("isKeepDiv", false);
-                GM_setValue("isPrecise", false);
-                GM_setValue("detectMode", "mutationobserver");
-                GM_setValue("detectDelay", 100);
-                GM_setValue("allowAnnouncement", true);
-                GM_setValue("blockText", "⛔该仓库被脚本屏蔽");
-                GM_setValue("useDefaultList", true);
-                GM_setValue("customBanList", []);
+                GM_deleteValues([
+                    "isKeepDiv",
+                    "isPrecise",
+                    "detectMode",
+                    "detectDelay",
+                    "allowAnnouncement",
+                    "blockText",
+                    "useDefaultList",
+                    "customBanList"]);
                 location.reload();
             }
         },
@@ -215,7 +252,7 @@
     GM_registerMenuCommand(
         "🚩注意事项",
         function () {
-            alert("如果你的系统配色与你的 Github 配色不一样，那么设置页面将会看起来特别难看，请自行调整");
+            alert("如果你的系统配色与你的 Github 配色不一样，那么设置页面将会看起来特别难看，请自行调整。关于 Navigation API 的检测模式，Firefox,Safari 不支持，请用 Chromium 内核浏览器");
         },
         { title: "向脚本作者提问前，请先阅读这里的内容" }
     );
@@ -358,6 +395,35 @@
         window.addEventListener('pushState', function (e) {
             pageChange(location.href);
         })
+    }
+
+    //*********************************
+    //*                               *
+    //*     Navigation API检测代码     *
+    //*                               *
+    //*********************************
+
+    // 使用 Navigation API 监听页面变化
+    function cleanByNavigation() {
+        console.log("Running:Navigation API");
+
+        // 初始清理
+        setTimeout(() => { clean() }, 1000);
+        clean();
+
+        // 监听导航事件
+        if (window.navigation) {
+            window.navigation.addEventListener('navigate', (event) => {
+                if (event.navigationType === 'replace') {
+                    setTimeout(() => {
+                        clean();
+                    }, 1000);
+                }
+            });
+        } else {
+            console.log("Navigation API not supported, falling back to MutationObserver");
+            cleanByMutationObserver();
+        }
     }
 
     //*********************************
@@ -636,6 +702,7 @@
         case "mutationobserver": cleanByMutationObserver(); break;
         case "loop": cleanByLoop(); break;
         case "eventListen": cleanByEventListener(); break;
+        case "navigation": cleanByNavigation(); break;
     }
 
 })()
