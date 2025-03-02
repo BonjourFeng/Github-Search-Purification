@@ -87,3 +87,10 @@
 3. 自定义黑名单用户名支持拖入txt文件 Fix:但拖入后设置面板会变模糊，暂时无法解决，是transform引起的
 4. 优化屏蔽用户数量显示逻辑，默认列表已关闭时，显示自定义屏蔽词数量，默认列表已开启时，显示已加载默认屏蔽用户数量和自定义屏蔽词数量
 5. 添加 Navigation API 检测模式，需要 Chromium 内核浏览器
+
+# v1.3.2
+1. 删除菜单“🚩注意事项” 中的提醒文字，变为 README Q&A
+2. Navigation API 不再 fallback 到 MutationObserver
+3. Navigation API 不可用时，选项自动变为不可用状态
+4. 添加手动屏蔽功能（右下角悬浮按钮）
+5. 优化clean()，确保不漏掉某个项

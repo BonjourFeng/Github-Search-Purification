@@ -3,12 +3,12 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/BonjourFeng
-// @version      1.3.1
+// @version      1.3.2
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
 // @icon       data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAACEUExURUxpcRgWFhsYGBgWFhcWFh8WFhoYGBgWFiUlJRcVFRkWFhgVFRgWFhgVFRsWFhgWFigeHhkWFv////////////r6+h4eHv///xcVFfLx8SMhIUNCQpSTk/r6+jY0NCknJ97e3ru7u+fn51BOTsPCwqGgoISDg6empmpoaK2srNDQ0FhXV3eXcCcAAAAXdFJOUwCBIZXMGP70BuRH2Ze/LpIMUunHkpQR34sfygAAAVpJREFUOMt1U+magjAMDAVb5BDU3W25b9T1/d9vaYpQKDs/rF9nSNJkArDA9ezQZ8wPbc8FE6eAiQUsOO1o19JolFibKCdHGHC0IJezOMD5snx/yE+KOYYr42fPSufSZyazqDoseTPw4lGJNOu6LBXVUPBG3lqYAOv/5ZwnNUfUifzBt8gkgfgINmjxOpgqUA147QWNaocLniqq3QsSVbQHNp45N/BAwoYQz9oUJEiE4GMGfoBSMj5gjeWRIMMqleD/CAzUHFqTLyjOA5zjNnwa4UCEZ2YK3khEcBXHjVBtEFeIZ6+NxYbPqWp1DLKV42t6Ujn2ydyiPi9nX0TTNAkVVZ/gozsl6FbrktkwaVvL2TRK0C8Ca7Hck7f5OBT6FFbLATkL2ugV0tm0RLM9fedDvhWstl8Wp9AFDjFX7yOY/lJrv8AkYuz7fuP8dv9izCYH+x3/LBnj9fYPBTpJDNzX+7cAAAAASUVORK5CYII=
-// @license      GPLv3
+// @license      GPL-3.0
 // @author       DanicaStar ch3rry
 // @match        *://github.com/search*
 // @match        *://github.site/search*
@@ -80,6 +80,10 @@
                         <input type="radio" name="detectMode" class="settings-radio">
                         Navigation API
                     </label>
+                    <label class="settings-label" title="需要手动点击按钮进行屏蔽">
+                        <input type="radio" name="detectMode" class="settings-radio">
+                        手动屏蔽
+                    </label>
                 </div>
                 <div class="settings-block"><span>(Loop模式)每次检测循环间隔的时间 (毫秒) ：</span><input type="number" class="settings-input">
                 </div>
@@ -121,6 +125,11 @@
                 case "loop": document.getElementsByClassName("settings-radio")[1].checked = true; break;
                 case "eventListen": document.getElementsByClassName("settings-radio")[2].checked = true; break;
                 case "navigation": document.getElementsByClassName("settings-radio")[3].checked = true; break;
+                case "manual": document.getElementsByClassName("settings-radio")[4].checked = true; break;
+            }
+
+            if (!window.navigation) {
+                document.getElementsByClassName("settings-radio")[3].disabled = true;
             }
 
             document.getElementsByClassName("settings-input")[0].value = blockText;
@@ -171,6 +180,7 @@
                 else if (document.getElementsByClassName("settings-radio")[1].checked == true) { GM_setValue("detectMode", "loop"); }
                 else if (document.getElementsByClassName("settings-radio")[2].checked == true) { GM_setValue("detectMode", "eventListen"); }
                 else if (document.getElementsByClassName("settings-radio")[3].checked == true) { GM_setValue("detectMode", "navigation"); }
+                else if (document.getElementsByClassName("settings-radio")[4].checked == true) { GM_setValue("detectMode", "manual"); }
 
 
                 let newBlockText = document.getElementsByClassName("settings-input")[0].value;
@@ -249,13 +259,7 @@
         },
         { title: "重置全部的脚本设置" }
     );
-    GM_registerMenuCommand(
-        "🚩注意事项",
-        function () {
-            alert("如果你的系统配色与你的 Github 配色不一样，那么设置页面将会看起来特别难看，请自行调整。关于 Navigation API 的检测模式，Firefox,Safari 不支持，请用 Chromium 内核浏览器");
-        },
-        { title: "向脚本作者提问前，请先阅读这里的内容" }
-    );
+
 
 
     //*********************************
@@ -267,7 +271,9 @@
     function clean() {
         if (document.querySelector("div[data-testid='results-list']") !== null) {
             let search_list = document.querySelector("div[data-testid='results-list']").childNodes;
-            for (let i = 0; i < search_list.length; i++) {
+
+            // 从后向前遍历，这样删除元素不会影响未遍历的索引
+            for (let i = search_list.length - 1; i >= 0; i--) {
                 if (isBan(search_list[i], isPrecise)) {
                     if (isKeepDiv) {
                         search_list[i].firstChild.remove();
@@ -412,18 +418,36 @@
         clean();
 
         // 监听导航事件
-        if (window.navigation) {
-            window.navigation.addEventListener('navigate', (event) => {
-                if (event.navigationType === 'replace') {
-                    setTimeout(() => {
-                        clean();
-                    }, 1000);
-                }
-            });
-        } else {
-            console.log("Navigation API not supported, falling back to MutationObserver");
-            cleanByMutationObserver();
-        }
+        window.navigation.addEventListener('navigate', (event) => {
+            if (event.navigationType === 'replace') {
+                setTimeout(() => {
+                    clean();
+                }, 1000);
+            }
+        });
+    }
+
+    function cleanByManual() {
+        console.log("Running:Manual");
+
+        // 添加悬浮按钮
+        const floatingButton = document.createElement("button");
+        floatingButton.id = "github-purify-button";
+        floatingButton.innerHTML = "⛔";
+        floatingButton.title = "点击净化Github搜索结果";
+
+        // 添加点击事件
+        floatingButton.addEventListener("click", () => {
+            clean();
+            // 添加动画效果表示点击成功
+            floatingButton.classList.add("button-clicked");
+            setTimeout(() => {
+                floatingButton.classList.remove("button-clicked");
+            }, 300);
+        });
+
+        // 将按钮添加到页面
+        document.body.appendChild(floatingButton);
     }
 
     //*********************************
@@ -642,6 +666,20 @@
             margin-right: 5px;
         }
 
+        /* Make label text appear dimmed when radio is disabled */
+        div.settings label.settings-label input[type="radio"]:disabled + span,
+        div.settings label.settings-label:has(input[type="radio"]:disabled) {
+            color: #999;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        /* Ensure the label doesn't appear clickable when radio is disabled */
+        div.settings label.settings-label:has(input[type="radio"]:disabled):hover {
+            background-color: transparent;
+            cursor: not-allowed;
+        }
+
         @media screen and (prefers-color-scheme: dark) {
             div.settings {
                 color: #e6edf3;
@@ -680,6 +718,57 @@
             div.settings label.settings-label:hover {
                 background-color: #161b22;
             }
+
+            /* Dark mode specific styles for disabled radio labels */
+            div.settings label.settings-label input[type="radio"]:disabled + span,
+            div.settings label.settings-label:has(input[type="radio"]:disabled) {
+                color: #6e7681;
+                opacity: 0.6;
+            }
+        }
+
+        /* 悬浮净化按钮样式 */
+        #github-purify-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #ffffff;
+            color: #333333;
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #github-purify-button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        #github-purify-button.button-clicked {
+            transform: scale(0.95);
+            background-color: #eeeeee;
+        }
+
+        @media screen and (prefers-color-scheme: dark) {
+            /* 深色模式下的样式 */
+            #github-purify-button {
+                background-color: #333333;
+                color: #ffffff;
+                border-color: #444444;
+            }
+            
+            #github-purify-button:hover {
+                background-color: #444444;
+            }
+
+            #github-purify-button.button-clicked {
+                background-color: #555555;
+            }
         }
     `);
 
@@ -703,6 +792,7 @@
         case "loop": cleanByLoop(); break;
         case "eventListen": cleanByEventListener(); break;
         case "navigation": cleanByNavigation(); break;
+        case "manual": cleanByManual(); break;
     }
 
 })()

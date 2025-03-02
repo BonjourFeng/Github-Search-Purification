@@ -24,7 +24,7 @@
 
 3.是否显示“正在使用非最佳配置”提示：若选择显示，则在用户使用功能非最佳配置时在Github搜索界面顶部添加通告栏，以提醒用户升级后及时使用新功能。
 
-4.检测模式：共有三种模式——MutationObserver、Loop和eventListener：
+4.检测模式：共有五种模式——MutationObserver、Loop、eventListener、Navigation、手动：
 
 |  检测方法                | 检测方式          | 性能开销 | 检测不及时情况 |
 |----------------------|---------------|------|---------|
@@ -32,6 +32,7 @@
 |  Loop                | 循环检测          | 较大   | 不可能发生   |
 | eventListener        | 检测pushState事件 | 很小   | 特定情境下发生 |
 |Navigation              |检测导航路由变化 | 很小 | 特定情况下发生 |
+|ByHand              |按下检测按钮后 | 几乎无 | 大脑宕机时 |
 
 5.每次检测循环间隔的时间，单位为毫秒(1000秒 = 1秒)，可根据自身设备性能调整，默认为100毫秒。
 
@@ -70,6 +71,10 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 **Q5：Navigation API 检测模式无效？**
 
 A5: Navigation API 支持 Chromium 102+ 内核，其他一律不支持的情况均会 fallback 到  MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
+
+**Q6：设置面板看不清楚**
+
+A6: 如果你的系统配色与你的 Github 配色不一样，那么设置页面将会看起来特别难看，请自行调整。
 
 ---
 
