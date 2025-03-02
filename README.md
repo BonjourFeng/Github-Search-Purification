@@ -70,7 +70,7 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 
 **Q5：Navigation API 检测模式无效？**
 
-A5: Navigation API 支持 Chromium 102+ 内核，其他一律不支持的情况均会 fallback 到  MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
+A5: Navigation API 是实验性功能，支持 Chromium 102+ 内核，其他一律不支持的情况单选框会自动变灰。如果仍然要用，请开F12把 `disabled` 去掉即可 ~均会 fallback 到  MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)~。
 
 **Q6：设置面板看不清楚**
 
