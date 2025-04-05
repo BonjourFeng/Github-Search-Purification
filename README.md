@@ -85,7 +85,7 @@ A6: 如果你的系统配色与你的 Github 配色不一样，那么设置页�
 
 **Q7：屏蔽列表不准？不够？**
 
-A7: 请看 [cangerjun/No-Reactionaries](https://github.com/cangerjun/No-Reactionaries/main/list.txt) ，使用时注意该项目协议。
+A7: 请看 [cangerjun/No-Reactionaries](https://github.com/cangerjun/No-Reactionaries/) 里的 list.txt，使用时注意该项目协议。
 
 ---
 
