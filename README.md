@@ -97,6 +97,8 @@ A7: 请看 [cangerjun/No-Reactionaries](https://github.com/cangerjun/No-Reaction
 
 欢迎给此项目提 Issue 与 PR。
 
+项目的 Release 发布的版本号并不是 Semver 标准，是进位版本号。
+
 ---
 
 ## 鸣谢
