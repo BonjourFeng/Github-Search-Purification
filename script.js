@@ -102,7 +102,7 @@
                 </div>
                 <div class="settings-block">
                     <span>自定义屏蔽:</span>
-                    <textarea id="customBanInput" placeholder="直接输入，或者直接拖入txt文件到此框内 格式：每行输入一个要屏蔽的用户名。如果你用较多的待屏蔽用户，请在 Github 上提 issue，这会帮助到其他人。" class="settings-textarea"></textarea>
+                    <textarea id="customBanInput" placeholder="直接输入，或者直接拖入txt文件到此框内 格式：每行输入一个要屏蔽的用户名。如果你有较多的待屏蔽用户，请在 Github 上提 issue，这会帮助到其他人。" class="settings-textarea"></textarea>
                 </div>
 
                 <button id="help">帮助</button><button id="save">保存</button><button id="cancel">取消</button>
