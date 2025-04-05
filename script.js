@@ -3,7 +3,7 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/BonjourFeng
-// @version      1.3.2
+// @version      1.3.3
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
@@ -13,6 +13,8 @@
 // @match        *://github.com/search*
 // @match        *://github.site/search*
 // @match        *://github.store/search*
+// @match        *://kkgithub.com/search*
+// @match        *://dgithub.xyz/search*
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -27,6 +29,7 @@
 (function () {
     "use strict" // 严格模式
     let ban = ['cirosantilli', 'wumaoland', 'codin-stuffs', 'cheezcharmer', 'gege-circle', 'zhaohmng-outlook-com', 'zaohmeing', 'Daravai1234', 'candice531033938', 'jk-ice-cream', 'jk-ice-cream-250', 'sky8964', 'pxvr-official', 'zpc1314521', 'jjzhang166', 'panbinibn', 'programthink', 'hello-world-1989', 'b0LBwZ7r5HOeh6CBMuQIhVu3-s-random-fork', 'thethetpvmy', 'wwwswitch520cc', 'shotoanqrob', 'sitempeanhkkwg', 'fukeluo', '1206256980', 'curees', 'yuoppo', 'Createree', 'vghl', 'wholedata', 'dunjian', 'mksshare', 'abshare', 'tpxdat', 'jhdyg', 'changfengqj', 'Dujltqzv', 'xmq1024', 'golade', 'kdjfhd', 'dkjhy', 'junsolg', 'dkjiiu', 'faithhow', 'yamtioy', 'zugzuc', 'lusvont', 'kenyatas', 'koeheu', 'juttama', 'duspub', 'wuqdid', 'visxud', 'suyfic', 'qokkod', 'roepuo', 'purfob', 'gitprocode', 'ynwynw', 'hanguodianying', 'hgyw', '69sm', 'urlapp', 'Augensternhx', 'urlweb', 'fuliso', 'nishjd', '36dshipin', 'hapump', 'zhguoxmw', 'KoreanMovies', 'hanjutv', 'mamadepengyou', 'mamatouyunmuxuan', 'erzideqizi', 'wodeqizidejiejie', 'xiaoyizidemeng', 'qingyuzongheng', 'jiangnanerxi', 'hanguobiaomei', 'djhgy', 'XXOOBY', 'baoyu1024', 'kk234kkkk', '15923-ORIX', 'wutaed', 'webzhibo', 'apptuijian', 'follow666', 'yu90892', 'aconteet', 'getmal', 'itxinfei', 'mingtiana', 'midoushipin', 'paofushipin', 'yinghanshipin', 'GTVapp', 'huangyouquan', 'devlookme', 'audwq', 'jhdgy', 'di6gandh', 'shuangyuzhibo', 'lvchazhibo', 'xiaolanshipin', 'bofangqi', 'yingtaoshipin', 'xiangfeizhibo', 'lvchaApp', 'luoshenzhibo', 'yaojizhibo', 'mudanzhibo', 'aiaizhibo', 'gaochaoqwe', 'jiolde', 'lsdhw', 'kanavdaohang', 'harnh', 'kuadaner', 'wapquan', 'laoyeer', 'reteres', 'haoersn', 'zhengjianzhong0107', 'huaaweiCode', 'jianjian00001', 'm2ak-dev', 'yyzwz', 'froginwe11', 'luanmenglei', 'xijinping0', 'cyqqq', 'qldaisd', 'lTbgykio', 'yao270161651', 'jt0008jt0008', '15625103741', 'sky1234566778', 'chfucao', 'chifuyidaocao', 'updrmeltm', 'alice548', 'yazm000', 'cpnorg', 'tffygbu', 'Liberty-China', '1989CCP', 'liulihaocai', 'RevolutionaryCommitteeCPC', 'LeiyanLu', 'webdao', 'GC4WP', 'tu01', 'ziliao1', 'zzs70', 'ff2017', 'guitu2017', 'tu2017', 'wm001', 'wnel2017', 'dunhlino', 'nelaliox', 'jianjian3219', 'giteecode', '666bears', 'wang-buer', 'id681ilyg316', 'uhjid', 'usdui', 'uhskl', 'uyjks', 'uhskldf', 'itgsi5', 'uifskv', 'uhgask', 'igfkld', 'udsjd', 'ufodk', 'uigsjt', 'ighfrs', 'haivs', 'idrkkld', 'yuisju', 'uldydj', 'uyuek', 'tydfj', 'uuedif', 'ykwsw3', 'uigsi7', 'tyiis', 'ykeik', 'ukvdj', 'uyikl', 'ufzekg', 'yiksure', 'rhksgz', 'rthls', 'rhjaw', 'rehlxs', 'thzsgt', 'tdidst', 'eglct', 'tjkdyu', 'tjlks', 'tjjds', 'rllfs', 'rhkstd', 'yjscdr', 'servisee', 'ufsjzf', 'bvnbvnfgd', 'duliyingshi', 'calendi', 'mayeobey', 'QQMusic-Jay-Chou', 'boylovecomic', 'bt9527', 'FarmerChina', 'Waymon102092', 'baofx', 'biehd', 'moonpas', 'lyqilo', 'liliqh', 'hourv', 'xinfue', 'jijidianying', 'YuyanCai', 'jtdh', 'isdkxr', 'yhildyu', 'ykldyld', 'igsigk', 'uidekj', 'iufskw', 'udsjhf', 'tjkdx', 'rtkist', 'tjlsyh', 'euhf', 'rjzsht', 'rhkdzu', 'ehkkld', 'xzgfsw', 'iofgd', 'yufdk', 'ujkdub', 'iofgdsk', 'dyghikg', 'ugdskf', 'ifwaih', 'oigsiu', 'yjksku', 'yfdkkrf', 'thjsqd', 'yjsyhf', 'ydjsu6', 'igseyf', 'ujudy8', 'tykde', 'ykmdi8', 'yklzrf', 'uijdkd', 'yjkshc', 'tkajc', 'ykdzs', 'jklsx', 'ejldux', 'ifxspo', 'ogsvtf', 'ifdeu', 'yudfdi', 'ofssj', 'igegkx', 'ugfkd', 'ugdsk', 'udskts', 'yjlkdss', 'fkdryl', 'rtuyjsr', 'tus56f', 'yjdsd', 'yuet6h', 'ugtw', 'tlkxt', 'yesrs', 'ykkds', 'yjksu', 'yhyshs', 'xdzfby', 'yujzdh', 'znfl', 'kjiud', 'shijuezhishi', 'hy1980boy', 'ww0304', 'ZXCASD854', 'zfpdh', 'batiyadh', 'yinsedh', 'yyfxz', 'bllpooe', 'joodfer', 'qdmang', 'chaenet', 'mzsyv', 'kzhaoes', 'clnnews', 'kendnes', 'hongnews', 'luokez', 'li721-LY', 'itunsr', 'cctnews', 'htmle', 'xmmj2', 'younownews', '445435213', 'seseClub', 'enewse', 'wsnewse', 'qsnews', 'soasmoughroy', 'adminewhat', 'wsermusic', 'molingfer', 'zhihues', '95movies', '99fuli', 'qnewse', 'tareres', 'hukioip', 'Hochoclate713', 'ervnme', 'greenleaf8888', '93-days', 'doubanm', 'xhydh', 'fvckslvt', 'MDCM-FB', 'b08240', 'm3u8-ekvod', 'huan768468', 'SweeOBC', 'ningmengsuan7788', 'supperqb', 'idskjs', 'ifsird', 'gklksr', 'ifsjxr', 'ifskxt', 'ghjklsd', 'udsskd', 'tgsjk', 'ihgsk', 'ujsjk', 'ijhdf', 'fghhgks', 'udfae4', 'jujwdj', 'ydsdk', 'uyfgsj', 'ykkxrd', 'branono', 'hytcd', 'kjiuo', 'SaolApp', 'lourv', 'uisdlk', 'hutuhai', 'dengminna', 'whmnoe4j', 'txy9704', 'ufsjl', 'udsks', 'uifsjk', 'ygsaj', 'udsts', 'yurdek', 'ghklsr', 'ifsnx', 'ufskd', 'yujst6', 'ifsurjn', 'saoyagma', 'yusyrdk', 'uijhgr', 'geeeeeeeek', 'gfjklk', 'uiskv', 'ccccsp', 'rrrsp', 'udjxs', 'qiezisp', 'egklkd', 't6korf', 'line915577', 'haijv', 'huaxinzhibo', 'haijiaofabuye', 'haijiaoshequ', 'HaijiaoCommunity', 'haijiao-app', 'fulibaike', 'lurmarp', 'entvasa', 'gotwib', 'hghkiiy121', 'gubcem', 'uijssu', 'yjhuk', 'yklsd', 'haijiaoWeb', 'winston779', 'tyukkst', 'ujsnmc', 'ygssk', 'igdkdy', 'qiezishiping', 'kjuhd', 'xiaogongzhuAPP', 'babyzhibo', 'yaojingzhibo', 'balizhibo', 'jiuaizhibo', 'liuyuezhibo', '69live', 'asidw', 'kuaimaoVIP', 'siguaha', 'mizhizhibo', 'lihzd', 'caomeizhibo', '36DAPP', 'luolisheApp', '69zhibo', 'jiejiezhibo', 'k8japan', 'buyaoshan', 'dk111222', 'fanbaovpn', 'HGcrowntiyu', '196tiyu', 'parryno', 'boyiscode', 'moonews', 'kim1528', 'tjqJ62cESiHPj6DdR6vXDAcPp', 'code-help-tutor', 'turbocanary', 'Ifem2BXvz4N4gh1gGn0bkR3Lp'];
+    let showBlockButton = GM_getValue("showBlockButton", true); // 是否显示屏蔽按钮，默认为true
     let isKeepDiv = GM_getValue("isKeepDiv", false); // 是否保留屏蔽项目Div的框，，默认为false
     let isPrecise = GM_getValue("isPrecise", true); // 是否精确匹配，默认为true
     let detectMode = GM_getValue("detectMode", "mutationobserver"); // 检测模式，默认为mutationobserver
@@ -44,13 +47,16 @@
         if (document.getElementsByClassName("settings").length == 0) {
             let settingMenu = document.createElement("div");
             settingMenu.className = "settings";
-            settingMenu.innerHTML = `
+            settingMenu.innerHTML = /*html*/`
                 <h2><span>Github搜索净化 v</span><span id="scriptVersion"></span></h2>
                 <a href="https://github.com/BonjourFeng/Github-Search-Purification" target="_blank"><div class="badge1"></div></a>
                 <a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96" target="_blank"><div class="badge2"></div></a>
                 <br>
                 <span class="userLoadNum">已加载屏蔽用户数量：加载中...</span>
                 <hr>
+                <div class="settings-block"><span>是否显示屏蔽按钮：</span><label class="settings-switch"><input type="checkbox"
+                            id="showBlockButton"><span class="slider round"></span></label>
+                </div>
                 <div class="settings-block"><span>是否保留屏蔽项目Div的框：</span><label class="settings-switch"><input type="checkbox"
                             id="isKeepDiv"><span class="slider round"></span></label>
                 </div>
@@ -96,7 +102,7 @@
                 </div>
                 <div class="settings-block">
                     <span>自定义屏蔽:</span>
-                    <textarea id="customBanInput" placeholder="直接输入，或者直接拖入txt文件到此框内 格式：每行输入一个要屏蔽的用户名" class="settings-textarea"></textarea>
+                    <textarea id="customBanInput" placeholder="直接输入，或者直接拖入txt文件到此框内 格式：每行输入一个要屏蔽的用户名。如果你用较多的待屏蔽用户，请在 Github 上提 issue，这会帮助到其他人。" class="settings-textarea"></textarea>
                 </div>
 
                 <button id="help">帮助</button><button id="save">保存</button><button id="cancel">取消</button>
@@ -115,6 +121,7 @@
                 userLoadNum.innerText = `默认列表已关闭，自定义屏蔽词数量：${customBanList.length}`;
             }
 
+            showBlockButton ? document.getElementById("showBlockButton").checked = true : document.getElementById("showBlockButton").checked = false;
             isKeepDiv ? document.getElementById("isKeepDiv").checked = true : document.getElementById("isKeepDiv").checked = false;
             isPrecise ? document.getElementById("isPrecise").checked = true : document.getElementById("isPrecise").checked = false;
             allowAnnouncement ? document.getElementById("allowAnnouncement").checked = true : document.getElementById("allowAnnouncement").checked = false;
@@ -137,7 +144,7 @@
             document.getElementById("customBanInput").value = customBanList.join("\n");
 
             // feature: 拖入txt文件
-            // Fix: 拖入后设置面板会变模糊，是transform引起的
+            // TODO:Fix: 拖入后设置面板会变模糊，是transform引起的
             document.getElementById("customBanInput").addEventListener('drop', function (e) {
                 e.preventDefault();
                 const file = e.dataTransfer.files[0];
@@ -171,6 +178,7 @@
 
             // 添加按钮事件——保存
             document.getElementById("save").onclick = function () {
+                document.getElementById("showBlockButton").checked == true ? GM_setValue("showBlockButton", true) : GM_setValue("showBlockButton", false);
                 document.getElementById("isKeepDiv").checked == true ? GM_setValue("isKeepDiv", true) : GM_setValue("isKeepDiv", false);
                 document.getElementById("isPrecise").checked == true ? GM_setValue("isPrecise", true) : GM_setValue("isPrecise", false);
                 document.getElementById("allowAnnouncement").checked == true ? GM_setValue("allowAnnouncement", true) : GM_setValue("allowAnnouncement", false);
@@ -457,7 +465,7 @@
     //*********************************
 
     // 添加脚本设置界面CSS
-    GM_addStyle(`
+    GM_addStyle(/*css*/`
         div.settings {
             transition: 0.2s;
             position: fixed;
@@ -772,7 +780,7 @@
         }
     `);
 
-    console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\nblockText: " + blockText + "\nuseDefaultList: " + useDefaultList + "\ncustomBanList: " + customBanList + "\n====================");
+    console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nshowBlockButton: " + showBlockButton + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\nblockText: " + blockText + "\nuseDefaultList: " + useDefaultList + "\ncustomBanList: " + customBanList + "\n====================");
     // 显示提示
     if (detectMode !== "mutationobserver" && allowAnnouncement) {
         // let jsAnnouncement = document.body.insertBefore(document.createElement("p"), document.body.firstChild);
@@ -786,6 +794,98 @@
             image: "https://github.com/favicon.ico",
         });
     }
+
+    // 如果showBlockButton为true，则添加屏蔽按钮
+    // 参考 https://greasyfork.org/zh-CN/scripts/493913-github%E5%B1%8F%E8%94%BD%E7%94%A8%E6%88%B7，进行了部分修改，整合了MutationObserver
+    // 作者：Gwen0x4c3, 发布时使用MIT许可证
+    if (showBlockButton) {
+        // 使用MutationObserver监听结果列表变动
+        const resultListObserver = new MutationObserver((mutations) => {
+            const resultList = document.querySelector('div[data-testid="results-list"]');
+            if (!resultList) return;
+
+            // 检查是否是由于添加Block按钮引起的变动
+            let isButtonAddition = false;
+            for (const mutation of mutations) {
+                if (mutation.addedNodes.length && mutation.addedNodes[0].querySelector &&
+                    mutation.addedNodes[0].querySelector('button[data-block-button="true"]')) {
+                    isButtonAddition = true;
+                    break;
+                }
+            }
+
+            // 如果是添加按钮引起的变动，则不再处理，避免死循环
+            if (isButtonAddition) return;
+
+            // 处理结果列表中的仓库
+            processResultList(resultList);
+        });
+
+        // 开始观察文档变化
+        resultListObserver.observe(document.body, { childList: true, subtree: true });
+
+        // 初始处理当前页面
+        const resultList = document.querySelector('div[data-testid="results-list"]');
+        if (resultList) {
+            processResultList(resultList);
+        }
+
+        function createElement(tag, clazz, attrs) {
+            const elem = document.createElement(tag);
+            if (clazz) elem.className = clazz;
+
+            if (attrs) {
+                // 遍历attrs对象的所有键值对，并将它们设置为元素的属性
+                Object.entries(attrs).forEach(([key, value]) => {
+                    elem[key] = value;
+                });
+            }
+
+            return elem;
+        }
+
+        // 处理结果列表的函数
+        function processResultList(resultList) {
+            const repos = resultList.children;
+            for (let i = 0; i < repos.length; i++) {
+                const repo = repos[i];
+
+                // 检查是否已经添加了Block按钮
+                if (repo.querySelector('button[data-block-button="true"]')) continue;
+
+                // 添加屏蔽按钮
+                const exampleButton = repo.querySelector('button');
+                if (!exampleButton) continue;
+
+                // 获取用户名
+                const span = repo.querySelector('.search-match');
+                const user = span.innerText.split('/')[0]
+
+                const blockButton = createElement('button', exampleButton.className, {
+                    innerText: '🚫Block',
+                    onclick: e => {
+                        if (confirm("确定要屏蔽此用户: " + user + " 吗？")) {
+                            customBanList.push(user);
+                            GM_setValue('customBanList', customBanList);
+                            clean();
+                        }
+                    }
+                });
+
+                blockButton.setAttribute('data-size', 'small');
+                blockButton.setAttribute('data-block-button', 'true'); // 添加标记，用于识别
+                const buttonWrapper = createElement('div', exampleButton.parentElement.className);
+                buttonWrapper.appendChild(blockButton);
+
+                // 暂时断开观察器，避免触发回调
+                resultListObserver.disconnect();
+                exampleButton.parentElement.parentElement.prepend(buttonWrapper);
+                // 重新连接观察器
+                resultListObserver.observe(document.body, { childList: true, subtree: true });
+            }
+        }
+    }
+    // if showBlockButton 结束
 
     switch (detectMode) {
         case "mutationobserver": cleanByMutationObserver(); break;

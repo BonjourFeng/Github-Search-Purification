@@ -94,3 +94,10 @@
 3. Navigation API 不可用时，选项自动变为不可用状态
 4. 添加手动屏蔽功能（右下角悬浮按钮）
 5. 优化clean()，确保不漏掉某个项
+
+# v.1.3.3
+1. 项目项目列表列表框框旁边旁边添加添加一个 Ban 按钮，点击后可以屏蔽该仓库的拥有者（加到自定义屏蔽列表里），参考 Gwen0x4c3 的脚本，修复 MutationObserver 无限递归问题
+2. 添加更多镜像网站的支持，如 [#8](https://github.com/BonjourFeng/Github-Search-Purification/issues/8) 中的 dgithub.xyz，还有 kkgithub.com 
+3. 源码添加 Inline HTML，使其用 Vscode 更容易阅读
+4. 提醒用户共享屏蔽列表
+5. 更新 README.md
