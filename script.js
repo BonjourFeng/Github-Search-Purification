@@ -3,7 +3,7 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/BonjourFeng
-// @version      1.3.3
+// @version      1.3.5
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
@@ -49,67 +49,78 @@
             let settingMenu = document.createElement("div");
             settingMenu.className = "settings";
             settingMenu.innerHTML = /*html*/`
-                <h2><span>Github搜索净化 v</span><span id="scriptVersion"></span></h2>
-                <a href="https://github.com/BonjourFeng/Github-Search-Purification" target="_blank"><div class="badge1"></div></a>
-                <a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96" target="_blank"><div class="badge2"></div></a>
-                <br>
-                <span class="userLoadNum">已加载屏蔽用户数量：加载中...</span>
-                <hr>
-                <div class="settings-block"><span>是否显示屏蔽按钮：</span><label class="settings-switch"><input type="checkbox"
-                            id="showBlockButton"><span class="slider round"></span></label>
+                <div class="settings-container">
+                    <div class="settings-left">
+                        <h2><span>Github搜索净化 v</span><span id="scriptVersion"></span></h2>
+                        <div class="badges">
+                            <a href="https://github.com/BonjourFeng/Github-Search-Purification" target="_blank"><div class="badge1"></div></a>
+                            <a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96" target="_blank"><div class="badge2"></div></a>
+                        </div>
+                        <span class="userLoadNum">已加载屏蔽用户数量：加载中...</span>
+                        <hr>
+                        <div class="settings-block"><span>是否显示屏蔽按钮：</span><label class="settings-switch"><input type="checkbox"
+                                    id="showBlockButton"><span class="slider round"></span></label>
+                        </div>
+                        <div class="settings-block"><span>是否保留屏蔽项目Div的框：</span><label class="settings-switch"><input type="checkbox"
+                                    id="isKeepDiv"><span class="slider round"></span></label>
+                        </div>
+                        <div class="settings-block">
+                            <span>Div的提示文本：</span>
+                            <input type="text" style="width: 70%;" class="settings-input">
+                        </div>
+                        <div class="settings-block"><span>是否精确匹配：</span><label class="settings-switch"><input type="checkbox"
+                                    id="isPrecise"><span class="slider round"></span></label></div>
+                        <div class="settings-block"><span>是否显示"正在使用非最佳配置"通知：</span><label class="settings-switch"><input
+                                    type="checkbox" id="allowAnnouncement"><span class="slider round"></span></label></div>
+                        <div class="settings-block"><span>屏蔽用户时无需确认：</span><label class="settings-switch"><input type="checkbox"
+                                    id="confirmBlock"><span class="slider round"></span></label></div>
+                        <div class="settings-block">
+                            <span>检测模式：</span>
+                            <div class="radio-group">
+                                <label class="settings-label">
+                                    <input type="radio" name="detectMode" class="settings-radio">
+                                    MutationObserver(推荐)
+                                </label>
+                                <label class="settings-label" title="性能较差，不推荐">
+                                    <input type="radio" name="detectMode" class="settings-radio">
+                                    Loop
+                                </label>
+                                <label class="settings-label" title="有可能没有效果">
+                                    <input type="radio" name="detectMode" class="settings-radio">
+                                    eventListener
+                                </label>
+                                <label class="settings-label" title="Firefox,Safari 不支持">
+                                    <input type="radio" name="detectMode" class="settings-radio">
+                                    Navigation API
+                                </label>
+                                <label class="settings-label" title="需要手动点击按钮进行屏蔽">
+                                    <input type="radio" name="detectMode" class="settings-radio">
+                                    手动屏蔽
+                                </label>
+                            </div>
+                        </div>
+                        <div class="settings-block"><span>(Loop模式)每次检测循环间隔的时间 (毫秒) ：</span><input type="number" class="settings-input">
+                        </div>
+                    </div>
+                    <div class="settings-right">
+                        <div class="settings-block">
+                            <span>是否追加默认屏蔽列表:</span>
+                            <label class="settings-switch">
+                                <input type="checkbox" id="useDefaultList">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="settings-block custom-ban-block">
+                            <span>自定义屏蔽:</span>
+                            <textarea id="customBanInput" placeholder="直接输入，或者直接拖入txt文件到此框内 格式：每行输入一个要屏蔽的用户名。如果你有较多的待屏蔽用户，请在 Github 上提 issue，这会帮助到其他人。" class="settings-textarea"></textarea>
+                        </div>
+                        <div class="settings-actions">
+                            <button id="help">帮助</button>
+                            <button id="save">保存</button>
+                            <button id="cancel">取消</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="settings-block"><span>是否保留屏蔽项目Div的框：</span><label class="settings-switch"><input type="checkbox"
-                            id="isKeepDiv"><span class="slider round"></span></label>
-                </div>
-                <div class="settings-block">
-                    <span>Div的提示文本：</span>
-                    <input type="text" style="width: 30%;" class="settings-input">
-                </div>
-                <div class="settings-block"><span>是否精确匹配：</span><label class="settings-switch"><input type="checkbox"
-                            id="isPrecise"><span class="slider round"></span></label></div>
-                <div class="settings-block"><span>是否显示"正在使用非最佳配置"通知(推荐开启以防止错过新功能)：</span><label class="settings-switch"><input
-                            type="checkbox" id="allowAnnouncement"><span class="slider round"></span></label></div>
-                <div class="settings-block"><span>屏蔽用户时无需确认：</span><label class="settings-switch"><input type="checkbox"
-                            id="confirmBlock"><span class="slider round"></span></label></div>
-                <div class="settings-block">
-                    <span>检测模式：</span>
-                    <label class="settings-label">
-                        <input type="radio" name="detectMode" class="settings-radio">
-                        MutationObserver(推荐)
-                    </label>
-                    <label class="settings-label" title="性能较差，不推荐">
-                        <input type="radio" name="detectMode" class="settings-radio">
-                        Loop
-                    </label>
-                    <label class="settings-label" title="有可能没有效果">
-                        <input type="radio" name="detectMode" class="settings-radio">
-                        eventListener
-                    </label>
-                    <label class="settings-label" title="Firefox,Safari 不支持">
-                        <input type="radio" name="detectMode" class="settings-radio">
-                        Navigation API
-                    </label>
-                    <label class="settings-label" title="需要手动点击按钮进行屏蔽">
-                        <input type="radio" name="detectMode" class="settings-radio">
-                        手动屏蔽
-                    </label>
-                </div>
-                <div class="settings-block"><span>(Loop模式)每次检测循环间隔的时间 (毫秒) ：</span><input type="number" class="settings-input">
-                </div>
-                <div class="settings-block">
-                    <span>是否追加默认屏蔽列表:</span>
-                    <label class="settings-switch">
-                        <input type="checkbox" id="useDefaultList">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <div class="settings-block">
-                    <span>自定义屏蔽:</span>
-                    <textarea id="customBanInput" placeholder="直接输入，或者直接拖入txt文件到此框内 格式：每行输入一个要屏蔽的用户名。如果你有较多的待屏蔽用户，请在 Github 上提 issue，这会帮助到其他人。" class="settings-textarea"></textarea>
-                </div>
-
-                <button id="help">帮助</button><button id="save">保存</button><button id="cancel">取消</button>
-                
             `;
             document.body.appendChild(settingMenu);
 
@@ -476,10 +487,10 @@
             transition: 0.2s;
             position: fixed;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            text-align: center;
-            font-size: large;
-            max-height: 80%;
-            width: 80%;
+            text-align: left;
+            font-size: 14px;
+            max-height: 85%;
+            width: 85%;
             left: 50%;
             top: 50%;
             padding: 20px;
@@ -489,13 +500,60 @@
             border-radius: 8px;
             overflow-y: auto;
         }
+        
+        .settings-container {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .settings-left {
+            flex: 1;
+            padding-right: 15px;
+            border-right: 1px solid #ddd;
+        }
+        
+        .settings-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .custom-ban-block {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .settings-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-left: 15px;
+            margin-top: 5px;
+        }
 
         div.settings hr {
-            margin: 10px;
+            margin: 10px 0;
+            background-color: lightgray;
+            height: 1px;
+            border: none;
         }
 
         div.settings h2 {
-            margin: 0px 0px 20px 0px;
+            margin: 0px 0px 15px 0px;
+            text-align: center;
         }
 
         div.settings span#load {
@@ -503,13 +561,7 @@
         }
 
         div.settings .settings-block {
-            padding: 10px 0px;
-        }
-
-        div.settings hr {
-            background-color: lightgray;
-            height: 1px;
-            border: none;
+            padding: 8px 0px;
         }
 
         div.settings a:link {
@@ -522,6 +574,8 @@
             display: inline-block;
             width: 38px;
             height: 20px;
+            vertical-align: middle;
+            margin-left: 10px;
         }
 
         div.settings .slider {
@@ -600,7 +654,6 @@
         div.settings input[type="text"] {
             transition: 0.2s;
             height: 20px;
-            width: 200px;
             margin: 5px;
             background-color: white;
             border: solid lightgray 1px;
@@ -622,14 +675,16 @@
 
         div.settings textarea.settings-textarea {
             transition: 0.2s;
-            height: 100px;
-            width: 80%;
-            margin: 5px;
+            height: 100%;
+            min-height: 200px;
+            width: 100%;
+            margin: 5px 0;
             background-color: white;
             border: solid lightgray 1px;
             border-radius: 8px;
             padding: 10px;
-            resize: both;
+            resize: none;
+            box-sizing: border-box;
         }
 
         div.settings textarea.settings-textarea:hover {
@@ -648,7 +703,7 @@
             transition: 0.2s;
             height: 30px;
             width: 60px;
-            margin: 20px 10px 0px 10px;
+            margin: 0 5px;
             background-color: white;
             border: solid lightgray 1px;
             border-radius: 8px;
@@ -664,7 +719,7 @@
 
         div.settings label.settings-label {
             display: inline-block;
-            margin: 5px;
+            margin: 3px 0;
             padding: 5px 10px;
             border: 1px solid lightgray;
             border-radius: 5px;
@@ -694,11 +749,22 @@
             cursor: not-allowed;
         }
 
+        .userLoadNum {
+            display: block;
+            margin: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
         @media screen and (prefers-color-scheme: dark) {
             div.settings {
                 color: #e6edf3;
                 border-color: #30363d;
                 background: #0d1117;
+            }
+            
+            .settings-left {
+                border-right-color: #30363d;
             }
 
             div.settings hr {
@@ -710,7 +776,7 @@
             div.settings textarea.settings-textarea {
                 color: #e6edf3;
                 border-color: #30363d;
-                background: none;
+                background: #21262d;
             }
 
             div.settings button {
@@ -727,6 +793,7 @@
 
             div.settings label.settings-label {
                 border-color: #30363d;
+                background-color: #21262d;
             }
 
             div.settings label.settings-label:hover {
@@ -738,6 +805,10 @@
             div.settings label.settings-label:has(input[type="radio"]:disabled) {
                 color: #6e7681;
                 opacity: 0.6;
+            }
+            
+            .userLoadNum {
+                color: #8b949e;
             }
         }
 
@@ -782,6 +853,30 @@
 
             #github-purify-button.button-clicked {
                 background-color: #555555;
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .settings-container {
+                flex-direction: column;
+            }
+            
+            .settings-left {
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                padding-right: 0;
+                padding-bottom: 15px;
+            }
+            
+            .settings-right {
+                padding-top: 15px;
+            }
+            
+            @media screen and (prefers-color-scheme: dark) {
+                .settings-left {
+                    border-bottom-color: #30363d;
+                }
             }
         }
     `);
