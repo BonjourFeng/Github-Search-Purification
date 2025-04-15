@@ -37,6 +37,7 @@
     let allowAnnouncement = GM_getValue("allowAnnouncement", true); // 是否显示"正在使用非最佳配置"提示，默认为true
     let blockText = GM_getValue("blockText", "⛔该仓库被脚本屏蔽"); // 添加自定义屏蔽提示文本的设置
     let useDefaultList = GM_getValue("useDefaultList", true);
+    let confirmBlock = GM_getValue("confirmBlock", true); // 是否在屏蔽用户时需要确认，默认为true
 
     // 读取自定义屏蔽列表
     let customBanList = GM_getValue("customBanList", []);
@@ -68,6 +69,8 @@
                             id="isPrecise"><span class="slider round"></span></label></div>
                 <div class="settings-block"><span>是否显示"正在使用非最佳配置"通知(推荐开启以防止错过新功能)：</span><label class="settings-switch"><input
                             type="checkbox" id="allowAnnouncement"><span class="slider round"></span></label></div>
+                <div class="settings-block"><span>屏蔽用户时无需确认：</span><label class="settings-switch"><input type="checkbox"
+                            id="confirmBlock"><span class="slider round"></span></label></div>
                 <div class="settings-block">
                     <span>检测模式：</span>
                     <label class="settings-label">
@@ -126,6 +129,7 @@
             isPrecise ? document.getElementById("isPrecise").checked = true : document.getElementById("isPrecise").checked = false;
             allowAnnouncement ? document.getElementById("allowAnnouncement").checked = true : document.getElementById("allowAnnouncement").checked = false;
             useDefaultList ? document.getElementById("useDefaultList").checked = true : document.getElementById("useDefaultList").checked = false;
+            !confirmBlock ? document.getElementById("confirmBlock").checked = true : document.getElementById("confirmBlock").checked = false;
 
             switch (detectMode) {
                 case "mutationobserver": document.getElementsByClassName("settings-radio")[0].checked = true; break;
@@ -183,6 +187,7 @@
                 document.getElementById("isPrecise").checked == true ? GM_setValue("isPrecise", true) : GM_setValue("isPrecise", false);
                 document.getElementById("allowAnnouncement").checked == true ? GM_setValue("allowAnnouncement", true) : GM_setValue("allowAnnouncement", false);
                 document.getElementById("useDefaultList").checked == true ? GM_setValue("useDefaultList", true) : GM_setValue("useDefaultList", false);
+                document.getElementById("confirmBlock").checked == true ? GM_setValue("confirmBlock", false) : GM_setValue("confirmBlock", true);
 
                 if (document.getElementsByClassName("settings-radio")[0].checked == true) { GM_setValue("detectMode", "mutationobserver"); }
                 else if (document.getElementsByClassName("settings-radio")[1].checked == true) { GM_setValue("detectMode", "loop"); }
@@ -261,6 +266,7 @@
                     "allowAnnouncement",
                     "blockText",
                     "useDefaultList",
+                    "confirmBlock",
                     "customBanList"]);
                 location.reload();
             }
@@ -780,7 +786,7 @@
         }
     `);
 
-    console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nshowBlockButton: " + showBlockButton + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\nblockText: " + blockText + "\nuseDefaultList: " + useDefaultList + "\ncustomBanList: " + customBanList + "\n====================");
+    console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nshowBlockButton: " + showBlockButton + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\nblockText: " + blockText + "\nuseDefaultList: " + useDefaultList + "\nconfirmBlock: " + confirmBlock + "\ncustomBanList: " + customBanList + "\n====================");
     // 显示提示
     if (detectMode !== "mutationobserver" && allowAnnouncement) {
         // let jsAnnouncement = document.body.insertBefore(document.createElement("p"), document.body.firstChild);
@@ -864,7 +870,7 @@
                 const blockButton = createElement('button', exampleButton.className, {
                     innerText: '🚫Block',
                     onclick: e => {
-                        if (confirm("确定要屏蔽此用户: " + user + " 吗？")) {
+                        if (!confirmBlock || confirm("确定要屏蔽此用户: " + user + " 吗？")) {
                             customBanList.push(user);
                             GM_setValue('customBanList', customBanList);
                             clean();
