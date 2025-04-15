@@ -3,7 +3,7 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/BonjourFeng
-// @version      1.3.5
+// @version      1.3.6
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
@@ -22,13 +22,16 @@
 // @grant        GM_notification
 // @grant        GM_deleteValues
 // @grant        unsafeWindow
+// @grant        GM_xmlhttpRequest
 // @run-at       document-end
 // @downloadURL https://update.greasyfork.org/scripts/473912/Github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96.user.js
 // @updateURL https://update.greasyfork.org/scripts/473912/Github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96.meta.js
+// @connect      githubusercontent.com
 // ==/UserScript==
 (function () {
     "use strict" // 严格模式
-    let ban = ['cirosantilli', 'wumaoland', 'codin-stuffs', 'cheezcharmer', 'gege-circle', 'zhaohmng-outlook-com', 'zaohmeing', 'Daravai1234', 'candice531033938', 'jk-ice-cream', 'jk-ice-cream-250', 'sky8964', 'pxvr-official', 'zpc1314521', 'jjzhang166', 'panbinibn', 'programthink', 'hello-world-1989', 'b0LBwZ7r5HOeh6CBMuQIhVu3-s-random-fork', 'thethetpvmy', 'wwwswitch520cc', 'shotoanqrob', 'sitempeanhkkwg', 'fukeluo', '1206256980', 'curees', 'yuoppo', 'Createree', 'vghl', 'wholedata', 'dunjian', 'mksshare', 'abshare', 'tpxdat', 'jhdyg', 'changfengqj', 'Dujltqzv', 'xmq1024', 'golade', 'kdjfhd', 'dkjhy', 'junsolg', 'dkjiiu', 'faithhow', 'yamtioy', 'zugzuc', 'lusvont', 'kenyatas', 'koeheu', 'juttama', 'duspub', 'wuqdid', 'visxud', 'suyfic', 'qokkod', 'roepuo', 'purfob', 'gitprocode', 'ynwynw', 'hanguodianying', 'hgyw', '69sm', 'urlapp', 'Augensternhx', 'urlweb', 'fuliso', 'nishjd', '36dshipin', 'hapump', 'zhguoxmw', 'KoreanMovies', 'hanjutv', 'mamadepengyou', 'mamatouyunmuxuan', 'erzideqizi', 'wodeqizidejiejie', 'xiaoyizidemeng', 'qingyuzongheng', 'jiangnanerxi', 'hanguobiaomei', 'djhgy', 'XXOOBY', 'baoyu1024', 'kk234kkkk', '15923-ORIX', 'wutaed', 'webzhibo', 'apptuijian', 'follow666', 'yu90892', 'aconteet', 'getmal', 'itxinfei', 'mingtiana', 'midoushipin', 'paofushipin', 'yinghanshipin', 'GTVapp', 'huangyouquan', 'devlookme', 'audwq', 'jhdgy', 'di6gandh', 'shuangyuzhibo', 'lvchazhibo', 'xiaolanshipin', 'bofangqi', 'yingtaoshipin', 'xiangfeizhibo', 'lvchaApp', 'luoshenzhibo', 'yaojizhibo', 'mudanzhibo', 'aiaizhibo', 'gaochaoqwe', 'jiolde', 'lsdhw', 'kanavdaohang', 'harnh', 'kuadaner', 'wapquan', 'laoyeer', 'reteres', 'haoersn', 'zhengjianzhong0107', 'huaaweiCode', 'jianjian00001', 'm2ak-dev', 'yyzwz', 'froginwe11', 'luanmenglei', 'xijinping0', 'cyqqq', 'qldaisd', 'lTbgykio', 'yao270161651', 'jt0008jt0008', '15625103741', 'sky1234566778', 'chfucao', 'chifuyidaocao', 'updrmeltm', 'alice548', 'yazm000', 'cpnorg', 'tffygbu', 'Liberty-China', '1989CCP', 'liulihaocai', 'RevolutionaryCommitteeCPC', 'LeiyanLu', 'webdao', 'GC4WP', 'tu01', 'ziliao1', 'zzs70', 'ff2017', 'guitu2017', 'tu2017', 'wm001', 'wnel2017', 'dunhlino', 'nelaliox', 'jianjian3219', 'giteecode', '666bears', 'wang-buer', 'id681ilyg316', 'uhjid', 'usdui', 'uhskl', 'uyjks', 'uhskldf', 'itgsi5', 'uifskv', 'uhgask', 'igfkld', 'udsjd', 'ufodk', 'uigsjt', 'ighfrs', 'haivs', 'idrkkld', 'yuisju', 'uldydj', 'uyuek', 'tydfj', 'uuedif', 'ykwsw3', 'uigsi7', 'tyiis', 'ykeik', 'ukvdj', 'uyikl', 'ufzekg', 'yiksure', 'rhksgz', 'rthls', 'rhjaw', 'rehlxs', 'thzsgt', 'tdidst', 'eglct', 'tjkdyu', 'tjlks', 'tjjds', 'rllfs', 'rhkstd', 'yjscdr', 'servisee', 'ufsjzf', 'bvnbvnfgd', 'duliyingshi', 'calendi', 'mayeobey', 'QQMusic-Jay-Chou', 'boylovecomic', 'bt9527', 'FarmerChina', 'Waymon102092', 'baofx', 'biehd', 'moonpas', 'lyqilo', 'liliqh', 'hourv', 'xinfue', 'jijidianying', 'YuyanCai', 'jtdh', 'isdkxr', 'yhildyu', 'ykldyld', 'igsigk', 'uidekj', 'iufskw', 'udsjhf', 'tjkdx', 'rtkist', 'tjlsyh', 'euhf', 'rjzsht', 'rhkdzu', 'ehkkld', 'xzgfsw', 'iofgd', 'yufdk', 'ujkdub', 'iofgdsk', 'dyghikg', 'ugdskf', 'ifwaih', 'oigsiu', 'yjksku', 'yfdkkrf', 'thjsqd', 'yjsyhf', 'ydjsu6', 'igseyf', 'ujudy8', 'tykde', 'ykmdi8', 'yklzrf', 'uijdkd', 'yjkshc', 'tkajc', 'ykdzs', 'jklsx', 'ejldux', 'ifxspo', 'ogsvtf', 'ifdeu', 'yudfdi', 'ofssj', 'igegkx', 'ugfkd', 'ugdsk', 'udskts', 'yjlkdss', 'fkdryl', 'rtuyjsr', 'tus56f', 'yjdsd', 'yuet6h', 'ugtw', 'tlkxt', 'yesrs', 'ykkds', 'yjksu', 'yhyshs', 'xdzfby', 'yujzdh', 'znfl', 'kjiud', 'shijuezhishi', 'hy1980boy', 'ww0304', 'ZXCASD854', 'zfpdh', 'batiyadh', 'yinsedh', 'yyfxz', 'bllpooe', 'joodfer', 'qdmang', 'chaenet', 'mzsyv', 'kzhaoes', 'clnnews', 'kendnes', 'hongnews', 'luokez', 'li721-LY', 'itunsr', 'cctnews', 'htmle', 'xmmj2', 'younownews', '445435213', 'seseClub', 'enewse', 'wsnewse', 'qsnews', 'soasmoughroy', 'adminewhat', 'wsermusic', 'molingfer', 'zhihues', '95movies', '99fuli', 'qnewse', 'tareres', 'hukioip', 'Hochoclate713', 'ervnme', 'greenleaf8888', '93-days', 'doubanm', 'xhydh', 'fvckslvt', 'MDCM-FB', 'b08240', 'm3u8-ekvod', 'huan768468', 'SweeOBC', 'ningmengsuan7788', 'supperqb', 'idskjs', 'ifsird', 'gklksr', 'ifsjxr', 'ifskxt', 'ghjklsd', 'udsskd', 'tgsjk', 'ihgsk', 'ujsjk', 'ijhdf', 'fghhgks', 'udfae4', 'jujwdj', 'ydsdk', 'uyfgsj', 'ykkxrd', 'branono', 'hytcd', 'kjiuo', 'SaolApp', 'lourv', 'uisdlk', 'hutuhai', 'dengminna', 'whmnoe4j', 'txy9704', 'ufsjl', 'udsks', 'uifsjk', 'ygsaj', 'udsts', 'yurdek', 'ghklsr', 'ifsnx', 'ufskd', 'yujst6', 'ifsurjn', 'saoyagma', 'yusyrdk', 'uijhgr', 'geeeeeeeek', 'gfjklk', 'uiskv', 'ccccsp', 'rrrsp', 'udjxs', 'qiezisp', 'egklkd', 't6korf', 'line915577', 'haijv', 'huaxinzhibo', 'haijiaofabuye', 'haijiaoshequ', 'HaijiaoCommunity', 'haijiao-app', 'fulibaike', 'lurmarp', 'entvasa', 'gotwib', 'hghkiiy121', 'gubcem', 'uijssu', 'yjhuk', 'yklsd', 'haijiaoWeb', 'winston779', 'tyukkst', 'ujsnmc', 'ygssk', 'igdkdy', 'qiezishiping', 'kjuhd', 'xiaogongzhuAPP', 'babyzhibo', 'yaojingzhibo', 'balizhibo', 'jiuaizhibo', 'liuyuezhibo', '69live', 'asidw', 'kuaimaoVIP', 'siguaha', 'mizhizhibo', 'lihzd', 'caomeizhibo', '36DAPP', 'luolisheApp', '69zhibo', 'jiejiezhibo', 'k8japan', 'buyaoshan', 'dk111222', 'fanbaovpn', 'HGcrowntiyu', '196tiyu', 'parryno', 'boyiscode', 'moonews', 'kim1528', 'tjqJ62cESiHPj6DdR6vXDAcPp', 'code-help-tutor', 'turbocanary', 'Ifem2BXvz4N4gh1gGn0bkR3Lp'];
+    let blockListUrl = "https://raw.githubusercontent.com/sheepweb/Github-Search-Purification/refs/heads/main/block_list.txt";
+    let ban = []; // 默认为空数组，将从远程加载
     let showBlockButton = GM_getValue("showBlockButton", true); // 是否显示屏蔽按钮，默认为true
     let isKeepDiv = GM_getValue("isKeepDiv", false); // 是否保留屏蔽项目Div的框，，默认为false
     let isPrecise = GM_getValue("isPrecise", true); // 是否精确匹配，默认为true
@@ -38,9 +41,120 @@
     let blockText = GM_getValue("blockText", "⛔该仓库被脚本屏蔽"); // 添加自定义屏蔽提示文本的设置
     let useDefaultList = GM_getValue("useDefaultList", true);
     let confirmBlock = GM_getValue("confirmBlock", true); // 是否在屏蔽用户时需要确认，默认为true
+    let lastUpdateTime = GM_getValue("lastUpdateTime", 0); // 最后更新屏蔽列表的时间
+    let updateInterval = 24 * 60 * 60 * 1000; // 更新间隔，默认24小时
 
     // 读取自定义屏蔽列表
     let customBanList = GM_getValue("customBanList", []);
+
+    // 从远程加载屏蔽列表
+    function loadBlockList() {
+        // 检查是否需要更新屏蔽列表
+        const now = Date.now();
+        if (useDefaultList && (now - lastUpdateTime > updateInterval || ban.length === 0)) {
+            console.log("正在从远程加载屏蔽列表...");
+            
+            // 尝试使用fetch API，如果浏览器不支持或失败，则使用GM_xmlhttpRequest
+            if (typeof fetch === 'function') {
+                fetch(blockListUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`网络请求失败: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(text => {
+                        processBlockList(text, now);
+                    })
+                    .catch(error => {
+                        console.error("Fetch加载远程屏蔽列表失败:", error);
+                        // 尝试使用GM_xmlhttpRequest
+                        useGmXhr();
+                    });
+            } else {
+                // 浏览器不支持fetch，使用GM_xmlhttpRequest
+                useGmXhr();
+            }
+        } else if (useDefaultList) {
+            // 使用缓存的列表
+            const cachedBan = GM_getValue("cachedBanList", []);
+            if (cachedBan.length > 0) {
+                ban = cachedBan;
+                console.log(`使用缓存的屏蔽列表 (${ban.length} 个用户)`);
+            }
+        }
+        
+        // 使用GM_xmlhttpRequest作为备用方法
+        function useGmXhr() {
+            if (typeof GM_xmlhttpRequest === 'function') {
+                GM_xmlhttpRequest({
+                    method: "GET",
+                    url: blockListUrl,
+                    onload: function(response) {
+                        if (response.status === 200) {
+                            processBlockList(response.responseText, now);
+                        } else {
+                            console.error(`GM_xmlhttpRequest请求失败: ${response.status}`);
+                            useCachedList();
+                        }
+                    },
+                    onerror: function(error) {
+                        console.error("GM_xmlhttpRequest请求出错:", error);
+                        useCachedList();
+                    }
+                });
+            } else {
+                console.error("既不支持fetch也不支持GM_xmlhttpRequest，无法获取远程屏蔽列表");
+                useCachedList();
+            }
+        }
+        
+        // 处理获取到的屏蔽列表
+        function processBlockList(text, timestamp) {
+            // 处理返回的文本，提取用户名
+            const matches = text.match(/'[^']+'/g);
+            if (matches && matches.length > 0) {
+                ban = matches.map(item => item.replace(/'/g, '').trim());
+                console.log(`成功从远程加载 ${ban.length} 个屏蔽用户`);
+                
+                // 缓存获取到的列表
+                GM_setValue("cachedBanList", ban);
+                
+                // 更新最后更新时间
+                GM_setValue("lastUpdateTime", timestamp);
+                
+                // 更新设置页面上的用户数量显示
+                updateUserLoadNum();
+                
+                // 立即执行一次屏蔽
+                clean();
+            } else {
+                console.error("远程屏蔽列表格式不正确");
+                useCachedList();
+            }
+        }
+        
+        // 使用缓存的列表
+        function useCachedList() {
+            const cachedBan = GM_getValue("cachedBanList", []);
+            if (cachedBan.length > 0) {
+                ban = cachedBan;
+                console.log(`使用缓存的屏蔽列表 (${ban.length} 个用户)`);
+            }
+        }
+    }
+
+    // 更新设置页面显示的用户加载数量
+    function updateUserLoadNum() {
+        const userLoadNumElement = document.getElementsByClassName("userLoadNum")[0];
+        if (userLoadNumElement) {
+            if (useDefaultList) {
+                userLoadNumElement.innerText = `已加载默认屏蔽用户数量：${ban.length}，自定义屏蔽词数量：${customBanList.length}`;
+            } else {
+                userLoadNumElement.innerText = `默认列表已关闭，自定义屏蔽词数量：${customBanList.length}`;
+            }
+        }
+    }
 
     // 开启设置页面函数
     function openMenu() {
@@ -128,12 +242,8 @@
 
             document.getElementById("scriptVersion").innerText = GM_info.script.version;
 
-            const userLoadNum = document.getElementsByClassName("userLoadNum")[0];
-            if (useDefaultList) {
-                userLoadNum.innerText = `已加载默认屏蔽用户数量：${ban.length}，自定义屏蔽词数量：${customBanList.length}`;
-            } else {
-                userLoadNum.innerText = `默认列表已关闭，自定义屏蔽词数量：${customBanList.length}`;
-            }
+            // 更新显示的用户数量
+            updateUserLoadNum();
 
             showBlockButton ? document.getElementById("showBlockButton").checked = true : document.getElementById("showBlockButton").checked = false;
             isKeepDiv ? document.getElementById("isKeepDiv").checked = true : document.getElementById("isKeepDiv").checked = false;
@@ -217,6 +327,12 @@
 
                 let newCustomBanList = document.getElementById("customBanInput").value.split("\n").filter(item => item.trim() !== "");
                 GM_setValue("customBanList", newCustomBanList);
+
+                // 如果更改了useDefaultList设置，需要重置列表
+                if (useDefaultList !== document.getElementById("useDefaultList").checked) {
+                    // 清除最后更新时间，强制下次刷新时重新加载
+                    GM_setValue("lastUpdateTime", 0);
+                }
 
                 closeMenu();
                 location.reload();
@@ -321,19 +437,15 @@
                 let userName = repositoryName.split("/")[0];
 
                 // 判断默认屏蔽列表
-                if (useDefaultList) {
-                    for (let j = 0; j < ban.length; j++) {
-                        if (userName == ban[j]) {
-                            return true;
-                        }
+                if (useDefaultList && ban.length > 0) {
+                    if (ban.includes(userName)) {
+                        return true;
                     }
                 }
 
                 // 判断自定义屏蔽列表
-                for (let j = 0; j < customBanList.length; j++) {
-                    if (userName == customBanList[j]) {
-                        return true;
-                    }
+                if (customBanList.includes(userName)) {
+                    return true;
                 }
 
                 return false;
@@ -342,7 +454,7 @@
         }
         else {
             // 判断默认屏蔽列表
-            if (useDefaultList) {
+            if (useDefaultList && ban.length > 0) {
                 for (let j = 0; j < ban.length; j++) {
                     if (target.innerText.includes(ban[j])) {
                         return true;
@@ -882,12 +994,12 @@
     `);
 
     console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nshowBlockButton: " + showBlockButton + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\nblockText: " + blockText + "\nuseDefaultList: " + useDefaultList + "\nconfirmBlock: " + confirmBlock + "\ncustomBanList: " + customBanList + "\n====================");
+    
+    // 加载远程屏蔽列表
+    loadBlockList();
+    
     // 显示提示
     if (detectMode !== "mutationobserver" && allowAnnouncement) {
-        // let jsAnnouncement = document.body.insertBefore(document.createElement("p"), document.body.firstChild);
-        // jsAnnouncement.style.cssText = 'background: linear-gradient(to right, rgb(0, 121, 145), rgb(120, 255, 214)); text-align: center; margin: 0px; padding: 5px; color: white; font-weight: bold;';
-        // jsAnnouncement.innerHTML = "来自Github搜索净化脚本的提示：脚本更新了一些功能，您可能正在使用非最佳配置，抽空来脚本设置页面看看吧🥳";
-
         // 调用系统通知
         GM_notification({
             title: "Github 搜索净化",
