@@ -6,6 +6,8 @@
 
 <p align="center">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a></p>
 
+<img src="https://socialify.git.ci/BonjourFeng/Github-Search-Purification/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Formal+Invitation&pulls=1&stargazers=1&theme=Auto">
+
 <img src="https://raw.gitmirror.com/BonjourFeng/Script-History/main/history.png">
 
 </center>

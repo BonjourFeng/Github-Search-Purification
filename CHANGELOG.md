@@ -101,3 +101,9 @@
 3. 源码添加 Inline HTML，使其用 Vscode 更容易阅读
 4. 提醒用户共享屏蔽列表
 5. 更新 README.md
+
+# v1.3.4
+1. 统一block按钮样式
+2. 修复重置脚本后不会重置showButton的问题
+3. 新增是否在block用户时弹窗确定的设置项
+4. 添加了一个屏蔽用户 R7w726fYrfritM7zPJCO
