@@ -85,9 +85,10 @@ A5: Navigation API 是实验性功能，支持 Chromium 102+ 内核，其他一�
 
 A6: 如果你的系统配色与你的 Github 配色不一样，那么设置页面将会看起来特别难看，请自行调整。
 
-**Q7：屏蔽列表不准？不够？**
+**Q7：Block 按钮显示异常**
 
-A7: 请看 [cangerjun/No-Reactionaries](https://github.com/cangerjun/No-Reactionaries/) 里的 list.txt，使用时注意该项目协议。
+A7: 未知原因，暂未研究。请登录后使用此脚本即可解决此问题。镜像网站暂时无解。
+
 
 ---
 
