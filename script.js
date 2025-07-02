@@ -3,7 +3,7 @@
 // @name:zh-CN   Github搜索净化
 // @name:en      Github Search Purification
 // @namespace    https://github.com/BonjourFeng
-// @version      1.3.4
+// @version      1.3.5
 // @description  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:zh-CN  净化Github搜索页，屏蔽cirosantilli等400+人的敏感仓库。
 // @description:en Clean up Github search page, block sensitive repositories by cirosantilli and others.
@@ -213,7 +213,16 @@
                 else { alert("输入的delayTime有误，保存失败"); }
 
                 let newCustomBanList = document.getElementById("customBanInput").value.split("\n").filter(item => item.trim() !== "");
-                GM_setValue("customBanList", newCustomBanList);
+                let newCustomBanListSetFiltered = Array.from(new Set(newCustomBanList).values());
+
+                let repeatCount = newCustomBanList.length - newCustomBanListSetFiltered.length;
+
+                if (repeatCount > 0) {
+                    let repeatList = Array.from(new Set(subtractArrays(newCustomBanList, newCustomBanListSetFiltered)));
+                    alert(`检测到${repeatCount}个重复用户名，已自动去重，重复用户名：${repeatList.join(",")}`);
+                    GM_setValue("customBanList", newCustomBanListSetFiltered);
+                }
+                else { GM_setValue("customBanList", newCustomBanList); }
 
                 closeMenu();
                 location.reload();
@@ -250,6 +259,26 @@
         } catch (err) {
             console.log(GM_info.script.name + "：设置背景模糊或背景滚动失效");
         }
+    }
+    function subtractArrays(arr1, arr2) {
+        const count = {};
+        const result = [];
+
+        // count each element in arr2
+        for (const num of arr2) {
+            count[num] = (count[num] || 0) + 1;
+        }
+
+        // forEach arr1，subtract count of arr1，add the rest to result
+        for (const num of arr1) {
+            if (count[num] === undefined || count[num] === 0) {
+                result.push(num);
+            } else {
+                count[num]--;
+            }
+        }
+
+        return result;
     }
 
     // 注册菜单——脚本设置
@@ -795,7 +824,7 @@
         }
     `);
 
-    console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nshowBlockButton: " + showBlockButton + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\nblockText: " + blockText + "\nuseDefaultList: " + useDefaultList + "\ncustomBanList: " + customBanList + "\n====================");
+    console.log("====================\n脚本：" + GM_info.script.name + " 开始执行\n作者：" + GM_info.script.author + " 版本：" + GM_info.script.version + "\n脚本地址：https://greasyfork.org/zh-CN/scripts/473912-github搜索净化\n====================\n【脚本配置】\nisKeepDiv: " + isKeepDiv + "\nshowBlockButton: " + showBlockButton + "\nisPrecise: " + isPrecise + "\ndetectMode: " + detectMode + "\ndetectDelay: " + detectDelay + "\nallowAnnouncement: " + allowAnnouncement + "\nblockText: " + blockText + "\nuseDefaultList: " + useDefaultList + "\ncustomBanList: " + customBanList + "\nshowBlockConfirm: " + showBlockConfirm + "\n====================");
     // 显示提示
     if (detectMode !== "mutationobserver" && allowAnnouncement) {
         // let jsAnnouncement = document.body.insertBefore(document.createElement("p"), document.body.firstChild);
@@ -814,12 +843,10 @@
     // 参考 https://greasyfork.org/zh-CN/scripts/493913-github%E5%B1%8F%E8%94%BD%E7%94%A8%E6%88%B7，进行了部分修改，整合了MutationObserver
     // 作者：Gwen0x4c3, 发布时使用MIT许可证
     if (showBlockButton) {
-        // 使用MutationObserver监听结果列表变动
         const resultListObserver = new MutationObserver((mutations) => {
             const resultList = document.querySelector('div[data-testid="results-list"]');
             if (!resultList) return;
 
-            // 检查是否是由于添加Block按钮引起的变动
             let isButtonAddition = false;
             for (const mutation of mutations) {
                 if (mutation.addedNodes.length && mutation.addedNodes[0].querySelector &&
@@ -829,17 +856,13 @@
                 }
             }
 
-            // 如果是添加按钮引起的变动，则不再处理，避免死循环
             if (isButtonAddition) return;
 
-            // 处理结果列表中的仓库
             processResultList(resultList);
         });
 
-        // 开始观察文档变化
         resultListObserver.observe(document.body, { childList: true, subtree: true });
 
-        // 初始处理当前页面
         const resultList = document.querySelector('div[data-testid="results-list"]');
         if (resultList) {
             processResultList(resultList);
@@ -850,7 +873,6 @@
             if (clazz) elem.className = clazz;
 
             if (attrs) {
-                // 遍历attrs对象的所有键值对，并将它们设置为元素的属性
                 Object.entries(attrs).forEach(([key, value]) => {
                     elem[key] = value;
                 });
@@ -859,20 +881,16 @@
             return elem;
         }
 
-        // 处理结果列表的函数
         function processResultList(resultList) {
             const repos = resultList.children;
             for (let i = 0; i < repos.length; i++) {
                 const repo = repos[i];
 
-                // 检查是否已经添加了Block按钮
                 if (repo.querySelector('button[data-block-button="true"]')) continue;
 
-                // 添加屏蔽按钮
                 const exampleButton = repo.querySelector('button');
                 if (!exampleButton) continue;
 
-                // 获取用户名
                 const span = repo.querySelector('.search-match');
                 const user = span.innerText.split('/')[0]
 
@@ -893,10 +911,8 @@
                 const buttonWrapper = createElement('div', exampleButton.parentElement.className);
                 buttonWrapper.appendChild(blockButton);
 
-                // 暂时断开观察器，避免触发回调
                 resultListObserver.disconnect();
                 exampleButton.parentElement.parentElement.prepend(buttonWrapper);
-                // 重新连接观察器
                 resultListObserver.observe(document.body, { childList: true, subtree: true });
             }
         }
