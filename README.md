@@ -4,9 +4,14 @@
 
 <p align="center">「 净化Github搜索页，还你一个清净页面 」</p>
 
-<p align="center">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a></p>
+![GitHub License](https://img.shields.io/github/license/BonjourFeng/Github-Search-Purification?style=flat&label=License)
+![GitHub Repo stars](https://img.shields.io/github/stars/BonjourFeng/Github-Search-Purification?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/BonjourFeng/Github-Search-Purification?style=flat&label=Forks)
+![Greasy Fork Version](https://img.shields.io/greasyfork/v/473912?style=flat&label=Version)
+![Greasy Fork Downloads](https://img.shields.io/greasyfork/dt/473912?style=flat&label=Downloads)
 
-<img src="https://socialify.git.ci/BonjourFeng/Github-Search-Purification/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Formal+Invitation&pulls=1&stargazers=1&theme=Auto">
+
+<p align="center">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a></p>
 
 <img src="https://raw.gitmirror.com/BonjourFeng/Script-History/main/history.png">
 
@@ -20,18 +25,13 @@
 
 1. **屏蔽样式选择**  
    - **完全隐藏**：被屏蔽的仓库会直接从搜索结果中消失  
-   - **显示提示框**：被屏蔽的仓库会显示「⛔ 该仓库被脚本屏蔽」的提示框（文字可自定义）  
+   - **显示提示框**：被屏蔽的仓库会显示「⛔ 该仓库被脚本屏蔽」的提示框
 
 2. **匹配模式**  
    - **模糊匹配**：屏蔽所有包含关键词的仓库（可能误伤）  
    - **精确匹配**：只屏蔽名单中用户的所有仓库（推荐）  
 
-3. **配置提醒**  
-   - 当使用非推荐配置时，在页面顶部显示温馨提醒：「✨ 提示：升级脚本可获得更佳过滤效果！」  
-
-👉 简单几步设置，告别杂乱搜索结果，让你的 GitHub 探索更高效！
-
-4.检测模式：共有五种模式——MutationObserver、Loop、eventListener、Navigation、手动：
+3. 检测模式：共有五种模式——MutationObserver、Loop、eventListener、Navigation、手动：
 
 | 检测方法                 | 检测方式          | 性能开销 | 检测不及时情况 |
 | -------------------- | ------------- | ---- | ------- |
@@ -41,9 +41,9 @@
 | Navigation           | 检测导航路由变化      | 很小   | 特定情况下发生 |
 | Manual               | 按下检测按钮后       | 几乎无  | 大脑宕机时   |
 
-5.每次检测循环间隔的时间，单位为毫秒(1000秒 = 1秒)，可根据自身设备性能调整，默认为100毫秒。
+4. 每次检测循环间隔的时间，单位为毫秒(1000秒 = 1秒)，可根据自身设备性能调整，默认为100毫秒。
 
-6.项目旁边有 “Block” 按钮，点一下就能加到自定义屏蔽列表里（v1.3.3+）。
+5. 项目旁边有 “Block” 按钮，点一下就能加到自定义屏蔽列表里（v1.3.3+）。
 
 ---
 
@@ -79,7 +79,7 @@ A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](htt
 
 **Q5：Navigation API 检测模式无效？**
 
-A5: Navigation API 是实验性功能，支持 Chromium 102+ 内核，其他一律不支持的情况单选框会自动变灰。如果仍然要用，请开F12把 `disabled` 去掉即可 ~均会 fallback 到  MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)~。
+A5: Navigation API 是实验性功能，支持 Chromium 102+ 内核，其他一律不支持的情况单选框会自动禁用。如果仍要使用，请自行修改代码，均会 fallback 到  MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
 
 **Q6：设置面板看不清楚**
 
@@ -87,20 +87,13 @@ A6: 如果你的系统配色与你的 Github 配色不一样，那么设置页�
 
 **Q7：Block 按钮显示异常**
 
-A7: 未知原因，暂未研究。请登录后使用此脚本即可解决此问题。镜像网站暂时无解。
-
+A7: 未知原因，暂未研究。登录后使用此脚本即可解决此问题。镜像网站暂时无解。
 
 ---
 
 ## 更新记录
 
 [GITHUB CHANGELOG](CHANGELOG.md)
-
-两个作者大致的维护频率：一个月一次。
-
-欢迎给此项目提 Issue 与 PR。
-
-项目的 Release 发布的版本号并不是 Semver 标准，是进位版本号。
 
 ---
 
@@ -119,5 +112,3 @@ A7: 未知原因，暂未研究。请登录后使用此脚本即可解决此问�
 - psychosispy
 - yblpoi
 - hmjz100
-
-同时感谢 Cursor 提供的 Claude 模型。
