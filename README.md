@@ -4,12 +4,13 @@
 
 <p align="center">「 净化Github搜索页，还你一个清净页面 」</p>
 
-![GitHub License](https://img.shields.io/github/license/BonjourFeng/Github-Search-Purification?style=flat&label=License)
-![GitHub Repo stars](https://img.shields.io/github/stars/BonjourFeng/Github-Search-Purification?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/BonjourFeng/Github-Search-Purification?style=flat&label=Forks)
-![Greasy Fork Version](https://img.shields.io/greasyfork/v/473912?style=flat&label=Version)
-![Greasy Fork Downloads](https://img.shields.io/greasyfork/dt/473912?style=flat&label=Downloads)
-
+<p align='center'>
+   <img src="https://img.shields.io/github/license/BonjourFeng/Github-Search-Purification?style=flat&label=License">
+   <img src="https://img.shields.io/github/stars/BonjourFeng/Github-Search-Purification?style=flat&label=Stars">
+   <img src="https://img.shields.io/github/forks/BonjourFeng/Github-Search-Purification?style=flat&label=Forks">
+   <img src="https://img.shields.io/greasyfork/v/473912?style=flat&label=Version">
+   <img src="https://img.shields.io/greasyfork/dt/473912?style=flat&label=Downloads">
+</p>
 
 <p align="center">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a></p>
 
