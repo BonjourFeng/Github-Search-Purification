@@ -12,7 +12,7 @@
    <img src="https://img.shields.io/greasyfork/dt/473912?style=flat&label=Downloads">
 </p>
 
-<p align="center">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a></p>
+<p align="center">脚本下载：<a href="https://github.com/BonjourFeng/Github-Search-Purification">Github</a> | ⭐<a href="https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork</a> | <a href="https://gf.qytechs.cn/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96">Greasy Fork 镜像站</a></p>
 
 <img src="https://raw.gitmirror.com/BonjourFeng/Script-History/main/history.png">
 
