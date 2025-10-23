@@ -66,7 +66,7 @@ A1：按以下优先级检查：检查浏览器和脚本管理器 → 检查脚�
 
 **Q2：依然不生效 / 有功能建议？**
 
-A2：请[反馈](https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96/feedback)，因功能失效反馈时请附带浏览器、脚本管理器、已安装脚本、报错等信息，否则不做理会。
+A2：请 [反馈](https://greasyfork.org/zh-CN/scripts/473912-github%E6%90%9C%E7%B4%A2%E5%87%80%E5%8C%96/feedback) ，因功能失效反馈时请附带浏览器、脚本管理器、已安装脚本、报错等信息。
 
 **Q3：为什么安装时会显示需要信任作者？**
 
@@ -76,19 +76,25 @@ Greasy Fork上传的代码是不允许混淆或压缩（最小化）的，`@gran
 
 **Q4：怎么打开脚本设置菜单？**
 
-A4：在脚本作用的页面（Github搜索结果页面，如[这个页面](https://github.com/search?q=%E6%94%BF%E6%B2%BB&type=repositories&s=stars&o=desc)）点击右上角油猴插件图标，可参考图2。
+A4：在脚本作用的页面（Github搜索结果页面，如 [这个页面](https://github.com/search?q=%E6%94%BF%E6%B2%BB&type=repositories&s=stars&o=desc) ）点击右上角油猴插件图标，可参考图2。
 
 **Q5：Navigation API 检测模式无效？**
 
-A5: Navigation API 是实验性功能，支持 Chromium 102+ 内核，其他一律不支持的情况单选框会自动禁用。如果仍要使用，请自行修改代码，均会 fallback 到  MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
+A5: Navigation API 是实验性功能，支持 Chromium 102+ 内核，其他一律不支持的情况单选框会自动禁用。如果仍要使用，请自行修改代码，均会 fallback 到 MutationObserver [MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigation#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7)。
 
-**Q6：设置面板看不清楚**
+**Q6：设置面板看不清楚？**
 
 A6: 如果你的系统配色与你的 Github 配色不一样，那么设置页面将会看起来特别难看，请自行调整。
 
-**Q7：Block 按钮显示异常**
+**Q7：Block 按钮显示异常？**
 
 A7: 未知原因，暂未研究。登录后使用此脚本即可解决此问题。镜像网站暂时无解。
+
+**Q8：如何为项目贡献我的代码？**
+
+A8：我们认为项目当前的功能已能满足绝大部分的需求，为了避免项目过于臃肿，我们对所有的新PR持谨慎态度。
+
+您可以创建自己的分支版本，并发布在Github、Greasyfork等网站上，如果您认为为本项目提交PR是必要的，请在开始修改代码前提交Issue和我们确认。
 
 ---
 
